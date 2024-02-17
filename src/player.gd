@@ -11,8 +11,8 @@ extends CharacterBody2D
 
 @export var SPEED: float = 200.0
 
-var isLanternOn: bool = false;
-var isFlashLightOn: bool = false;
+@export var isLanternOn: bool = false;
+@export var isFlashLightOn: bool = false;
 
 
 func _physics_process(delta):

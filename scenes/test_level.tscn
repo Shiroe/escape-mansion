@@ -6829,7 +6829,6 @@ range_layer_min = 2
 shadow_color = Color(0, 0, 0, 0.0784314)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(960, 544)
 scale = Vector2(30, 17)
 texture = SubResource("GradientTexture2D_7q505")

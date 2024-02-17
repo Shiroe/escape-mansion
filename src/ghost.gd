@@ -19,9 +19,26 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var mat = sprite.get_material();
-	mat.set_shader_parameter("light_position", player.global_position)
-	mat.set_shader_parameter("light_radius", 128.0)
+	var lantern: PointLight2D = player.get_node('LanternLight2');
+	var light_position = player.global_position;
+	var light_radius = 128;
+
+	var distance_to_light = light_position.distance_to(global_position)
+		
+		# Calculate the transparency based on the distance
+	var transparency = clamp((light_radius - distance_to_light) / light_radius, 0.0, 1.0)
+		
+		# Calculate the visible portion based on the light radius
+	var visible_portion = clamp((light_radius - distance_to_light) / light_radius, 0.0, 1.0)
+		
+		# Set the CanvasModulate property to control transparency
+	if lantern.enabled:
+		modulate.a = transparency
+		# Clip the visible portion using draw_rect
+		draw_rect(Rect2(0, 0, 32 * visible_portion, 32), Color(1, 1, 1, 1))
+	else:
+		modulate.a = 0.0;
+
 
 func _physics_process(delta):
 	if not isChasing:

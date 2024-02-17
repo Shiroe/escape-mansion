@@ -1,13 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://cptw6lte7ptgx"]
+[gd_scene load_steps=13 format=3 uid="uid://cptw6lte7ptgx"]
 
 [ext_resource type="Texture2D" uid="uid://n6wfpur2c0f8" path="res://assets/GhostDungeonPack/GhostDungeon - Characters-Sheet.png" id="1_50s5m"]
-[ext_resource type="Shader" path="res://src/ghost.gdshader" id="1_of2r1"]
 [ext_resource type="Script" path="res://src/ghost.gd" id="1_vn5fg"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b80cj"]
-shader = ExtResource("1_of2r1")
-shader_parameter/light_position = null
-shader_parameter/light_radius = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cje50"]
 atlas = ExtResource("1_50s5m")
@@ -84,7 +78,6 @@ animations = [{
 script = ExtResource("1_vn5fg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_b80cj")
 sprite_frames = SubResource("SpriteFrames_0dexe")
 animation = &"chase"
 autoplay = "idle"
