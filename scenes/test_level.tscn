@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=24 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
 [ext_resource type="Texture2D" uid="uid://0rwaqs5w30pn" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Props.png" id="2_lotkf"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://3igq4a6vinwd" path="res://assets/RFCastle_1.0/decorative.png" id="6_5b6xf"]
 [ext_resource type="Texture2D" uid="uid://308tdkukq6wq" path="res://assets/RFCastle_1.0/mainlevbuild.png" id="7_87d7r"]
 [ext_resource type="PackedScene" uid="uid://bkbmjgr4xtqda" path="res://scenes/player.tscn" id="8_0enar"]
+[ext_resource type="PackedScene" uid="uid://cptw6lte7ptgx" path="res://scenes/ghost.tscn" id="9_rq2aq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
 texture = ExtResource("1_huc24")
@@ -6785,6 +6786,12 @@ fill_to = Vector2(0, 1)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uivts"]
 polygon = PackedVector2Array(609, 386, 638, 386, 638, 897, 718, 897, 718, 987, 690, 987, 690, 925, 610, 925)
 
+[sub_resource type="Curve2D" id="Curve2D_853mi"]
+_data = {
+"points": PackedVector2Array(-2.47487, 0.353553, 2.47487, -0.353553, 783, 621, 0, 0, 0, 0, 967, 623, 0, 0, 0, 0, 967, 724, 0, 0, 0, 0, 782, 724, 2.475, -0.354, 0, 0, 783, 621)
+}
+point_count = 5
+
 [node name="Node2D" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -6819,10 +6826,10 @@ environment = SubResource("Environment_jph87")
 visible = false
 color = Color(0.247059, 0.219608, 0.74902, 1)
 range_layer_min = 2
-shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.0784314)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(960, 544)
 scale = Vector2(30, 17)
 texture = SubResource("GradientTexture2D_7q505")
@@ -6832,8 +6839,23 @@ color = Color(0.219608, 0.219608, 0.219608, 1)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("8_0enar")]
 z_index = 3
-position = Vector2(545, 480)
+position = Vector2(702, 669)
+motion_mode = 1
 SPEED = 120.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_uivts")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_853mi")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(783, 621)
+rotates = false
+
+[node name="CharacterBody2D2" parent="Path2D/PathFollow2D" instance=ExtResource("9_rq2aq")]
+z_index = 2
+position = Vector2(1.98314, -1.033)
+rotation = -0.0165731
+motion_mode = 1
+chaseSpeed = 100

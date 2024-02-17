@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://cptw6lte7ptgx"]
+
+[ext_resource type="Texture2D" uid="uid://n6wfpur2c0f8" path="res://assets/GhostDungeonPack/GhostDungeon - Characters-Sheet.png" id="1_50s5m"]
+[ext_resource type="Script" path="res://src/ghost.gd" id="1_vn5fg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cje50"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgao5"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur8at"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8nqq"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(208, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxmg4"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpbfo"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgvdm"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mpq1"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(192, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dexe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cje50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgao5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur8at")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8nqq")
+}],
+"loop": true,
+"name": &"chase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxmg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpbfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgvdm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mpq1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7sp56"]
+
+[node name="Ghost" type="CharacterBody2D"]
+script = ExtResource("1_vn5fg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0dexe")
+animation = &"chase"
+autoplay = "idle"
+frame_progress = 0.983838
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_7sp56")
