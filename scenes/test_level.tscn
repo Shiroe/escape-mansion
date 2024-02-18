@@ -6947,13 +6947,11 @@ texture = SubResource("GradientTexture2D_7q505")
 visible = false
 color = Color(0.219608, 0.219608, 0.219608, 1)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("8_0enar")]
+[node name="Player" parent="." instance=ExtResource("8_0enar")]
 z_index = 4
 position = Vector2(631, 345)
 motion_mode = 1
 SPEED = 120.0
-isLanternOn = false
-isFlashLightOn = false
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_uivts")
