@@ -1,0 +1,121 @@
+[gd_scene load_steps=12 format=3 uid="uid://dh266m6vmqgko"]
+
+[ext_resource type="Script" path="res://src/parallax_background.gd" id="1_kfyyn"]
+[ext_resource type="Texture2D" uid="uid://bnnwy0esol2d7" path="res://assets/escape_mansion_bg.png" id="1_tjw10"]
+[ext_resource type="Texture2D" uid="uid://l2ip8bjndy07" path="res://assets/Purple_Flying.png" id="3_rccwe"]
+[ext_resource type="Texture2D" uid="uid://bu5ktb1ctvmfe" path="res://assets/Cloud 1.png" id="4_uhgpc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vj0dt"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqgoa"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfomr"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3java"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp5f5"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwi0r"]
+atlas = ExtResource("3_rccwe")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xljg4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vj0dt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqgoa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfomr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3java")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lp5f5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwi0r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+script = ExtResource("1_kfyyn")
+scrolling_speed = 150
+
+[node name="Mansion" type="Sprite2D" parent="."]
+position = Vector2(960.25, 541)
+scale = Vector2(0.416775, 0.469618)
+texture = ExtResource("1_tjw10")
+
+[node name="purpleBat" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="purpleBat" type="AnimatedSprite2D" parent="purpleBat"]
+position = Vector2(1641, 98)
+sprite_frames = SubResource("SpriteFrames_xljg4")
+autoplay = "default"
+
+[node name="purpleBat2" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="purpleBat" type="AnimatedSprite2D" parent="purpleBat2"]
+position = Vector2(1585, 144)
+sprite_frames = SubResource("SpriteFrames_xljg4")
+autoplay = "default"
+
+[node name="purpleBat3" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="purpleBat" type="AnimatedSprite2D" parent="purpleBat3"]
+position = Vector2(1782, 96)
+sprite_frames = SubResource("SpriteFrames_xljg4")
+autoplay = "default"
+
+[node name="purpleBat4" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="purpleBat" type="AnimatedSprite2D" parent="purpleBat4"]
+position = Vector2(1700, 174)
+sprite_frames = SubResource("SpriteFrames_xljg4")
+autoplay = "default"
+
+[node name="greyCloud" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="greyCloud" type="Sprite2D" parent="greyCloud"]
+modulate = Color(0.352941, 0.352941, 0.352941, 1)
+position = Vector2(1414, 99)
+texture = ExtResource("4_uhgpc")
+
+[node name="greyCloud2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.4, 0.4)
+
+[node name="greyCloud" type="Sprite2D" parent="greyCloud2"]
+modulate = Color(0.352941, 0.352941, 0.352941, 1)
+position = Vector2(1435, 187)
+texture = ExtResource("4_uhgpc")
+
+[node name="greyCloud3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(1.5, 1.5)
+
+[node name="greyCloud" type="Sprite2D" parent="greyCloud3"]
+modulate = Color(0.352941, 0.352941, 0.352941, 1)
+position = Vector2(1263, 143)
+texture = ExtResource("4_uhgpc")

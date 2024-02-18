@@ -75,6 +75,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sp56"]
 
 [node name="Ghost" type="CharacterBody2D"]
+z_index = 2
 script = ExtResource("1_vn5fg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -83,5 +84,4 @@ animation = &"chase"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_7sp56")
