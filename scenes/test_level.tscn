@@ -7180,3 +7180,22 @@ shape = SubResource("CircleShape2D_x8bwo")
 [connection signal="body_entered" from="lever1/Area2D2" to="lever1" method="_on_area_2d_2_body_entered"]
 [connection signal="body_entered" from="lever2/level2Area" to="." method="_on_level_2_area_body_entered"]
 [connection signal="body_entered" from="lever3/level3Area" to="." method="_on_level_3_area_body_entered"]
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="HUD"]
+offset_left = 27.0
+offset_top = 41.0
+offset_right = 98.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 24
+text = "Sanity"
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD"]
+custom_minimum_size = Vector2(200, 0)
+offset_left = 107.0
+offset_top = 47.0
+offset_right = 307.0
+offset_bottom = 74.0
+step = 1.0
+value = 100.0
+rounded = true

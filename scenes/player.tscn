@@ -187,10 +187,8 @@ _data = {
 script = ExtResource("1_403ti")
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 shape = SubResource("CapsuleShape2D_tpln4")
 
 [node name="CharacterHitBox" type="CollisionShape2D" parent="."]
@@ -231,6 +229,7 @@ height = 10.0
 shape = SubResource("CircleShape2D_m2gya")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 zoom = Vector2(2.5, 2.5)
 limit_left = 0
 limit_top = 0
@@ -286,3 +285,5 @@ target_position = Vector2(75, 12)
 
 [node name="FlashRayCast5" type="RayCast2D" parent="Marker2D"]
 target_position = Vector2(70, 21)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

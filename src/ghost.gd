@@ -15,9 +15,12 @@ var direction = 1
 var lastPatrolPosition;
 var hasReturnedToLastPatrolPosition = true;
 
+var stunGCD: Timer = Timer.new();
+var isStunned = false;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	add_child(stunGCD);
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,29 +47,41 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	if not isChasing:
-		if hasReturnedToLastPatrolPosition:
-			if patrol_type == 'loop':
-				pathFollow.progress += delta * speed
-			else:
-				if direction == 1:
-					if pathFollow.progress_ratio == 1:
-						direction = 0
-					else:
-						pathFollow.progress += delta * speed
-				else:
-					if pathFollow.progress_ratio == 0:
-						direction = 1
-					else:
-						pathFollow.progress_ratio -= delta * speed
-			lastPatrolPosition = global_position;
-		else:
-			moveBackToPatrol()
+	if isStunned:
+		sprite.play("stun");
+		return;
 	else:
-		hasReturnedToLastPatrolPosition = false;
-		var direction = (player.global_position - global_position).normalized();
-		velocity = direction * lerp(speed, chaseSpeed, 0.8);
-	move_and_slide();
+		if not isChasing:
+			if hasReturnedToLastPatrolPosition:
+				if patrol_type == 'loop':
+					pathFollow.progress += delta * speed
+				else:
+					if direction == 1:
+						if pathFollow.progress_ratio == 1:
+							direction = 0
+						else:
+							pathFollow.progress += delta * speed
+					else:
+						if pathFollow.progress_ratio == 0:
+							direction = 1
+						else:
+							pathFollow.progress_ratio -= delta * speed
+				lastPatrolPosition = global_position;
+			else:
+				moveBackToPatrol()
+		else:
+			sprite.play("idle")
+			if not isChasing:
+				if hasReturnedToLastPatrolPosition:
+					pathFollow.progress += delta * speed
+					lastPatrolPosition = global_position;
+				else:
+					moveBackToPatrol()
+			else:
+				hasReturnedToLastPatrolPosition = false;
+				var direction = (player.global_position - global_position).normalized();
+				velocity = direction * lerp(speed, chaseSpeed, 0.8);
+			move_and_slide();
 		
 func moveBackToPatrol():
 	if lastPatrolPosition and not hasReturnedToLastPatrolPosition: 
@@ -102,3 +117,6 @@ func _on_area_2d_body_exited(body):
 func _on_hit_area_area_entered(area):
 	if area.name == "FlashLightArea":
 		print('hit by flashlight')
+		stunGCD.start(2);
+		isStunned = true;
+		stunGCD.timeout.connect(func(): isStunned = false)

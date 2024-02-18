@@ -99,5 +99,14 @@ text = "Quit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="musicCredits" type="Label" parent="Control"]
+self_modulate = Color(0.768627, 1, 1, 0.454902)
+layout_mode = 0
+offset_left = 1516.0
+offset_top = 1003.0
+offset_right = 1888.0
+offset_bottom = 1026.0
+text = "BG music by: Nojisume, found on \"pixabay.com\""
+
 [connection signal="pressed" from="Control/BoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="Control/BoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]

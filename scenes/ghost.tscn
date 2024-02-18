@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cptw6lte7ptgx"]
+[gd_scene load_steps=18 format=3 uid="uid://cptw6lte7ptgx"]
 
 [ext_resource type="Texture2D" uid="uid://n6wfpur2c0f8" path="res://assets/GhostDungeonPack/GhostDungeon - Characters-Sheet.png" id="1_50s5m"]
 [ext_resource type="Script" path="res://src/ghost.gd" id="1_vn5fg"]
@@ -35,6 +35,18 @@ region = Rect2(128, 0, 16, 16)
 atlas = ExtResource("1_50s5m")
 region = Rect2(192, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bshu"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65b60"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e75so"]
+atlas = ExtResource("1_50s5m")
+region = Rect2(32, 32, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0dexe"]
 animations = [{
 "frames": [{
@@ -70,6 +82,20 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bshu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65b60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e75so")
+}],
+"loop": true,
+"name": &"stun",
+"speed": 6.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sp56"]
@@ -87,7 +113,7 @@ chaseSpeed = 100
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0dexe")
-animation = &"idle"
+animation = &"stun"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
