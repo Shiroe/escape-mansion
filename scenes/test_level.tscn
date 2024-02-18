@@ -6972,7 +6972,6 @@ scale = Vector2(30, 17)
 texture = SubResource("GradientTexture2D_7q505")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.219608, 0.219608, 0.219608, 1)
 
 [node name="Player" parent="." instance=ExtResource("8_0enar")]
@@ -7176,10 +7175,6 @@ shape = SubResource("CircleShape2D_0j4e0")
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
-[connection signal="body_entered" from="key/Area2D" to="key" method="_on_area_2d_body_entered"]
-[connection signal="body_entered" from="lever1/Area2D2" to="lever1" method="_on_area_2d_2_body_entered"]
-[connection signal="body_entered" from="lever2/level2Area" to="." method="_on_level_2_area_body_entered"]
-[connection signal="body_entered" from="lever3/level3Area" to="." method="_on_level_3_area_body_entered"]
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="HUD"]
@@ -7199,3 +7194,8 @@ offset_bottom = 74.0
 step = 1.0
 value = 100.0
 rounded = true
+
+[connection signal="body_entered" from="key/Area2D" to="key" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="lever1/Area2D2" to="lever1" method="_on_area_2d_2_body_entered"]
+[connection signal="body_entered" from="lever2/level2Area" to="." method="_on_level_2_area_body_entered"]
+[connection signal="body_entered" from="lever3/level3Area" to="." method="_on_level_3_area_body_entered"]
