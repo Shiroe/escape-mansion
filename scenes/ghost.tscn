@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cptw6lte7ptgx"]
+[gd_scene load_steps=15 format=3 uid="uid://cptw6lte7ptgx"]
 
 [ext_resource type="Texture2D" uid="uid://n6wfpur2c0f8" path="res://assets/GhostDungeonPack/GhostDungeon - Characters-Sheet.png" id="1_50s5m"]
 [ext_resource type="Script" path="res://src/ghost.gd" id="1_vn5fg"]
@@ -74,14 +74,37 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7sp56"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_u20fy"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q714x"]
+
 [node name="Ghost" type="CharacterBody2D"]
 z_index = 2
 script = ExtResource("1_vn5fg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0dexe")
-animation = &"chase"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_7sp56")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="DetectionRadius" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_u20fy")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
+target_position = Vector2(64, 0)
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="HitBox" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_q714x")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]

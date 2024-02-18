@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bkbmjgr4xtqda"]
+[gd_scene load_steps=31 format=3 uid="uid://bkbmjgr4xtqda"]
 
 [ext_resource type="Texture2D" uid="uid://bp0k8og5wurs6" path="res://assets/Pixel Crawler - FREE - 1.8/Heroes/Rogue/Death/Death-Sheet.png" id="1_71rvj"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_403ti"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://brycw81xdvg88" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_ud7mg"]
 [ext_resource type="Texture2D" uid="uid://datl1as4fh7ml" path="res://assets/Pixel Crawler - FREE - 1.8/Heroes/Rogue/Run/Run-Sheet.png" id="3_xthmu"]
 [ext_resource type="Texture2D" uid="uid://c6hgvctoaoh5b" path="res://assets/cone-lightmap.png" id="5_3qnkt"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpln4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ge8p"]
 
@@ -181,8 +183,15 @@ _data = {
 "flash": SubResource("Animation_2mllh")
 }
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_403ti")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+shape = SubResource("CapsuleShape2D_tpln4")
 
 [node name="CharacterHitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7ge8p")
@@ -235,7 +244,7 @@ drag_vertical_enabled = true
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="FlashLight" type="PointLight2D" parent="Marker2D"]
-position = Vector2(1.9541, 0.768011)
+position = Vector2(1.19209e-07, 0)
 rotation = -0.780826
 enabled = false
 color = Color(1, 1, 0.862745, 1)
@@ -253,3 +262,27 @@ one_shot = true
 libraries = {
 "": SubResource("AnimationLibrary_detja")
 }
+
+[node name="FlashLightArea" type="Area2D" parent="Marker2D/FlashLight"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Marker2D/FlashLight/FlashLightArea"]
+position = Vector2(32, 32)
+scale = Vector2(3.2, 3.2)
+build_mode = 1
+polygon = PackedVector2Array(-7.6, -10, 10, 2.2, 9.9, 2.8, 9.1, 4, 8.45, 5.2, 7.75, 6.3, 6.2, 8, 3.34702, 9.38461, 0.919399, 10.0586, 0.4, 9.8, -9.98989, -7.79031, -10, -10)
+
+[node name="FlashRayCast1" type="RayCast2D" parent="Marker2D"]
+target_position = Vector2(73, -17)
+hit_from_inside = true
+
+[node name="FlashRayCast2" type="RayCast2D" parent="Marker2D"]
+target_position = Vector2(76, -9)
+
+[node name="FlashRayCast3" type="RayCast2D" parent="Marker2D"]
+target_position = Vector2(77, 0)
+
+[node name="FlashRayCast4" type="RayCast2D" parent="Marker2D"]
+target_position = Vector2(75, 12)
+
+[node name="FlashRayCast5" type="RayCast2D" parent="Marker2D"]
+target_position = Vector2(70, 21)
