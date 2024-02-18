@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var speed := 60;
 @export var chaseSpeed := 120;
 @export var isChasing = false;
+@export_enum("loop", "linear") var patrol_type = "loop"
+var direction = 1
 
 @onready var pathFollow: PathFollow2D = $".."
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
@@ -42,11 +44,21 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	
-	
 	if not isChasing:
 		if hasReturnedToLastPatrolPosition:
-			pathFollow.progress += delta * speed
+			if patrol_type == 'loop':
+				pathFollow.progress += delta * speed
+			else:
+				if direction == 1:
+					if pathFollow.progress_ratio == 1:
+						direction = 0
+					else:
+						pathFollow.progress += delta * speed
+				else:
+					if pathFollow.progress_ratio == 0:
+						direction = 1
+					else:
+						pathFollow.progress_ratio -= delta * speed
 			lastPatrolPosition = global_position;
 		else:
 			moveBackToPatrol()
