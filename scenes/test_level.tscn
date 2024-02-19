@@ -7257,7 +7257,7 @@ libraries = {
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("8_0enar")]
 z_index = 4
-position = Vector2(1510, 917)
+position = Vector2(1513, 713)
 motion_mode = 1
 SPEED = 120.0
 
