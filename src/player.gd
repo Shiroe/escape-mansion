@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D;
 @onready var lantern: PointLight2D = $LanternLight;
 @onready var lanternOuter: PointLight2D = $LanternLight2;
@@ -32,6 +31,10 @@ func _ready() -> void:
 	pass
 
 func _physics_process(delta):
+	if Game.hasWon:
+		animation.play('idle')
+		return
+	
 	handleInput();
 
 
