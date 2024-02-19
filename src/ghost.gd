@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export_enum("loop", "linear") var patrol_type = "loop"
 var direction = 1
 
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var pathFollow: PathFollow2D = $".."
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
 @onready var player: CharacterBody2D = $"../../../Player";
@@ -117,6 +118,11 @@ func _on_area_2d_body_exited(body):
 func _on_hit_area_area_entered(area):
 	if area.name == "FlashLightArea":
 		print('hit by flashlight')
+		collision_shape_2d.call_deferred("set", "disabled", true)
 		stunGCD.start(2);
 		isStunned = true;
-		stunGCD.timeout.connect(func(): isStunned = false)
+		stunGCD.timeout.connect(
+			func(): 
+				isStunned = false
+				collision_shape_2d.call_deferred("set", "disabled", false)
+		)
