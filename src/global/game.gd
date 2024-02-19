@@ -9,6 +9,7 @@ var lever3Found = false
 var bgMusicPlayer: AudioStreamPlayer = AudioStreamPlayer.new();
 var bgMusicFile: AudioStreamMP3 = preload("res://assets/bg-music.mp3");
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	bgMusicPlayer.stream = bgMusicFile;
@@ -24,11 +25,11 @@ func _process(delta):
 
 func reducePlayerSanity():
 	PlayerSanity -= 10;
-	if (PlayerSanity <= 0):
+	if PlayerSanity <= 0:
 		GameOver();
 	
 
 
 func GameOver():
 	PlayerSanity = 100;
-	get_tree().change_scene_to_file("main_menu");
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn");

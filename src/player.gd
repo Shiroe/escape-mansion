@@ -119,5 +119,5 @@ func updateAnimation():
 
 
 func _on_area_2d_body_entered(body):
-	if body.name == "Ghost":
+	if body.is_in_group('ghost'):
 		Game.reducePlayerSanity();
