@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=65 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Script" path="res://src/test_level.gd" id="1_1k7gl"]
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
@@ -6870,6 +6870,93 @@ use_hdr = true
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_di3rn"]
+size = Vector2(6.99993, 31.25)
+
+[sub_resource type="Animation" id="Animation_r3p44"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("finalDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5708, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(670.5, 521), Vector2(703, 551.75)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5708, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_itt6j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("finalDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(670.5, 521)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vn52n"]
+_data = {
+"RESET": SubResource("Animation_itt6j"),
+"open": SubResource("Animation_r3p44")
+}
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uivts"]
 polygon = PackedVector2Array(722, 980, 477, 978, 479, 252, 706, 251, 706, 493, 1294, 493, 1294, 412, 1874, 413, 1874, 977, 1598, 977, 1598, 859, 1790, 859, 1790, 641, 1763, 641, 1762, 834, 1598, 835, 1598, 668, 1694, 668, 1694, 642, 1471, 641, 1471, 556, 1565, 556, 1565, 528, 1443, 530, 1443, 642, 1123, 642, 1122, 910, 1150, 909, 1150, 668, 1569, 668, 1570, 834, 1379, 834, 1378, 861, 1569, 861, 1569, 978, 1309, 978, 1311, 764, 1502, 764, 1500, 738, 1282, 738, 1282, 978, 750, 977, 750, 641, 722, 641, 723, 899, 638, 897, 638, 385, 610, 385, 610, 924, 722, 925)
 
@@ -6907,9 +6994,6 @@ point_count = 2
 outlines = Array[PackedVector2Array]([PackedVector2Array(722, 927, 722, 978, 482, 976, 483, 287, 703, 288, 703, 531, 1299, 530, 1300, 468, 1328, 468, 1328, 448, 1843, 449, 1843, 472, 1871, 472, 1871, 975, 1601, 975, 1601, 866, 1795, 866, 1793, 638, 1758, 638, 1758, 830, 1601, 830, 1602, 675, 1699, 675, 1699, 636, 1520, 636, 1520, 562, 1572, 562, 1572, 526, 1437, 526, 1437, 637, 1119, 638, 1119, 915, 1153, 915, 1153, 682, 1565, 682, 1565, 830, 1374, 830, 1375, 881, 1564, 881, 1564, 975, 1345, 974, 1345, 936, 1313, 936, 1314, 773, 1506, 772, 1506, 732, 1277, 732, 1276, 974, 754, 974, 754, 870, 817, 865, 818, 831, 802, 831, 802, 809, 753, 809, 753, 637, 719, 637, 718, 894, 640, 894, 641, 380, 605, 380, 607, 933)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u2hac"]
-size = Vector2(5.99991, 32)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_167m6"]
 
 [sub_resource type="Curve2D" id="Curve2D_177c8"]
@@ -6923,6 +7007,180 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 1680, 920, 0, 0, 0, 0, 1828, 923, 0, 0, 0, 0, 1828, 680)
 }
 point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ps60f"]
+size = Vector2(5.50004, 31.0001)
+
+[sub_resource type="Animation" id="Animation_0ap8m"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("leverDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-0.249969, 16.4998), Vector2(-16, 5.72205e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_k42dc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("leverDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-0.249969, 16.4998)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5yki2"]
+_data = {
+"RESET": SubResource("Animation_k42dc"),
+"open": SubResource("Animation_0ap8m")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_en0ri"]
+size = Vector2(5.59994, 30.8001)
+
+[sub_resource type="Animation" id="Animation_8hvil"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("keyDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-2.27374e-13, 1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 15.8), Vector2(-16.4, 4.76837e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-7.27596e-12, 1.5708]
+}
+
+[sub_resource type="Animation" id="Animation_btera"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("keyDoor:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-2.27374e-13]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 15.8)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-7.27596e-12]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3e1k0"]
+_data = {
+"RESET": SubResource("Animation_btera"),
+"open": SubResource("Animation_8hvil")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0j4e0"]
 
@@ -6974,44 +7232,67 @@ texture = SubResource("GradientTexture2D_7q505")
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.219608, 0.219608, 0.219608, 1)
 
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+z_index = 2
+position = Vector2(670.5, 521)
+rotation = 1.5708
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_di3rn")
+
+[node name="finalDoor" type="Sprite2D" parent="StaticBody2D"]
+z_index = 1
+position = Vector2(703, 520)
+rotation = 1.5708
+scale = Vector2(2, 2)
+texture = ExtResource("17_edfsv")
+centered = false
+offset = Vector2(-8, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D"]
+libraries = {
+"": SubResource("AnimationLibrary_vn52n")
+}
+
 [node name="Player" parent="." instance=ExtResource("8_0enar")]
 z_index = 4
-position = Vector2(1497, 921)
+position = Vector2(1510, 917)
 motion_mode = 1
 SPEED = 120.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_uivts")
 
-[node name="corridor 1" type="Path2D" parent="."]
+[node name="corridor1Enemy" type="Path2D" parent="."]
 position = Vector2(0, 6.10352e-05)
 curve = SubResource("Curve2D_853mi")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="corridor 1"]
+[node name="PathFollow2D" type="PathFollow2D" parent="corridor1Enemy"]
 position = Vector2(812, 881)
 rotates = false
 
-[node name="CharacterBody2D2" parent="corridor 1/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="CharacterBody2D2" parent="corridor1Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 position = Vector2(-1.00002, -2.99997)
 rotation = -0.0165731
 
-[node name="corridor 2" type="Path2D" parent="."]
+[node name="corridor2Enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_mwi57")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="corridor 2"]
+[node name="PathFollow2D" type="PathFollow2D" parent="corridor2Enemy"]
 position = Vector2(808, 750)
 rotates = false
 
-[node name="Ghost" parent="corridor 2/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="Ghost" parent="corridor2Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 
-[node name="corridor 3" type="Path2D" parent="."]
+[node name="corridor3Enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_xhteq")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="corridor 3"]
+[node name="PathFollow2D" type="PathFollow2D" parent="corridor3Enemy"]
 position = Vector2(800, 623)
 rotates = false
 
-[node name="Ghost" parent="corridor 3/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="Ghost" parent="corridor3Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 
 [node name="entrance enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_sjdlm")
@@ -7026,15 +7307,15 @@ loop = false
 position = Vector2(-9.75281, 1)
 patrol_type = "linear"
 
-[node name="exitDoor" type="Path2D" parent="."]
+[node name="exitDoorEnemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_bwf3k")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="exitDoor"]
+[node name="PathFollow2D" type="PathFollow2D" parent="exitDoorEnemy"]
 position = Vector2(486, 342)
 rotation = 0.0093894
 loop = false
 
-[node name="Ghost" parent="exitDoor/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="Ghost" parent="exitDoorEnemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 patrol_type = "linear"
 
 [node name="Light" parent="." instance=ExtResource("16_lenck")]
@@ -7059,21 +7340,6 @@ scale = Vector2(0.8, 0.8)
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_x3tmy")
 enabled = false
-
-[node name="finalDoor" type="Sprite2D" parent="."]
-z_index = 1
-position = Vector2(703, 520)
-rotation = 1.5708
-scale = Vector2(2, 2)
-texture = ExtResource("17_edfsv")
-centered = false
-offset = Vector2(-8, 0)
-
-[node name="Area2D" type="Area2D" parent="finalDoor"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="finalDoor/Area2D"]
-position = Vector2(0.000152588, 16)
-shape = SubResource("RectangleShape2D_u2hac")
 
 [node name="key" type="Sprite2D" parent="."]
 z_index = 1
@@ -7108,23 +7374,48 @@ rotates = false
 [node name="Ghost" parent="keyGhost/PathFollow2D" instance=ExtResource("9_rq2aq")]
 patrol_type = "linear"
 
-[node name="leverDoor" type="Sprite2D" parent="."]
-z_index = 1
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(1760, 656)
 rotation = 1.5708
 scale = Vector2(2, 2)
+
+[node name="leverDoor" type="Sprite2D" parent="StaticBody2D2"]
+z_index = 1
 texture = ExtResource("17_edfsv")
 centered = false
 offset = Vector2(-8, 0)
 
-[node name="keyDoor" type="Sprite2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 z_index = 1
+position = Vector2(-0.249969, 16.4998)
+shape = SubResource("RectangleShape2D_ps60f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D2"]
+libraries = {
+"": SubResource("AnimationLibrary_5yki2")
+}
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
 position = Vector2(1871, 656)
 rotation = 1.5708
 scale = Vector2(2.5, 2.5)
+
+[node name="keyDoor" type="Sprite2D" parent="StaticBody2D3"]
+z_index = 1
+scale = Vector2(1, 1)
 texture = ExtResource("17_edfsv")
 centered = false
 offset = Vector2(-8, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+z_index = 1
+position = Vector2(0, 15.8)
+shape = SubResource("RectangleShape2D_en0ri")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D3"]
+libraries = {
+"": SubResource("AnimationLibrary_3e1k0")
+}
 
 [node name="lever1" type="Sprite2D" parent="."]
 z_index = 1
