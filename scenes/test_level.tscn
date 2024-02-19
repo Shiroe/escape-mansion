@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=68 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Script" path="res://src/test_level.gd" id="1_1k7gl"]
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
@@ -7190,6 +7190,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38db7"]
 size = Vector2(31, 50)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fdysc"]
+polygon = PackedVector2Array(818, 897, 1070, 897, 1070, 923, 818, 923)
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_1k7gl")
 
@@ -7497,6 +7500,17 @@ shape = SubResource("RectangleShape2D_38db7")
 
 [node name="Victory" parent="." instance=ExtResource("23_h0onb")]
 visible = false
+
+[node name="LightOccluderRow1" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_fdysc")
+
+[node name="LightOccluderRow2" type="LightOccluder2D" parent="."]
+position = Vector2(0, -127)
+occluder = SubResource("OccluderPolygon2D_fdysc")
+
+[node name="LightOccluderRow3" type="LightOccluder2D" parent="."]
+position = Vector2(0, -255)
+occluder = SubResource("OccluderPolygon2D_fdysc")
 
 [connection signal="body_entered" from="key/Area2D" to="key" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="lever1/Area2D2" to="lever1" method="_on_area_2d_2_body_entered"]
