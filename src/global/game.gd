@@ -6,9 +6,10 @@ var Battery := 100;
 var isKeyFound = false
 var lever2Found = false
 var lever3Found = false
+var hasWon = false
 var bgMusicPlayer: AudioStreamPlayer = AudioStreamPlayer.new();
 var bgMusicFile: AudioStreamMP3 = preload("res://assets/bg-music.mp3");
-
+var playerStartingPos: Vector2 = Vector2(1535, 917)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,7 +30,14 @@ func reducePlayerSanity():
 		GameOver();
 	
 
-
 func GameOver():
-	PlayerSanity = 100;
+	reset()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn");
+
+func reset():
+	PlayerSanity = 100;
+	isKeyFound = false
+	lever2Found = false
+	lever3Found = false
+	hasWon = false
+	

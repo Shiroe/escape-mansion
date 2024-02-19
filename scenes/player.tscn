@@ -237,7 +237,8 @@ _data = {
 "hurt": SubResource("Animation_wh0s8")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 6
 script = ExtResource("1_403ti")
 
 [node name="CharacterHitBox" type="CollisionShape2D" parent="."]
