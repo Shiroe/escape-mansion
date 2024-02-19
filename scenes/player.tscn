@@ -211,6 +211,9 @@ _data = {
 "flash": SubResource("Animation_2mllh")
 }
 
+[sub_resource type="Animation" id="Animation_y21vn"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_wh0s8"]
 resource_name = "hurt"
 length = 0.5
@@ -227,9 +230,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0.34902, 1, 1, 1)]
 }
-
-[sub_resource type="Animation" id="Animation_y21vn"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jx6py"]
 _data = {

@@ -59,9 +59,17 @@ animations = [{
 script = ExtResource("1_kfyyn")
 scrolling_speed = 150
 
-[node name="Mansion" type="Sprite2D" parent="."]
-position = Vector2(960.25, 541)
-scale = Vector2(0.416775, 0.469618)
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -696.0
+offset_top = -364.0
+offset_right = 1992.0
+offset_bottom = 860.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("1_tjw10")
 
 [node name="purpleBat" type="ParallaxLayer" parent="."]
