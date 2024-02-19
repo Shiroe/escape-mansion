@@ -7255,7 +7255,7 @@ libraries = {
 "": SubResource("AnimationLibrary_vn52n")
 }
 
-[node name="Player" parent="." instance=ExtResource("8_0enar")]
+[node name="Player" parent="." groups=["player"] instance=ExtResource("8_0enar")]
 z_index = 4
 position = Vector2(1510, 917)
 motion_mode = 1
