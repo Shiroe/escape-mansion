@@ -8,6 +8,8 @@ extends CharacterBody2D
 @onready var flashLight: PointLight2D = $Marker2D/FlashLight;
 @onready var flashLightAnimation: AnimationPlayer = $Marker2D/FlashLight/AnimationPlayer;
 @onready var flashLightGCD: Timer = $Marker2D/FlashLight/Timer;
+@onready var hurt_gcd: Timer = $HurtGCD
+@onready var hurtAnimation: AnimationPlayer = $AnimationPlayer
 
 @export var SPEED: float = 200.0
 
@@ -25,6 +27,9 @@ extends CharacterBody2D
 var flashConeAngle: float = 45.0;
 var ray_count: int = 5
 
+
+func _ready() -> void:
+	pass
 
 func _physics_process(delta):
 	handleInput();
@@ -103,21 +108,21 @@ func handleInput():
 	velocity = moveDirection * SPEED;
 	
 func updateAnimation():
-	if velocity.length() == 0:
-		animation.play("idle");
+	if hurt_gcd.is_stopped():
+		hurtAnimation.stop()
+		if velocity.length() == 0:
+			animation.play("idle");
+		else:
+			animation.play("run");
 	else:
-		animation.play("run");
+		hurtAnimation.play('hurt', 1, 2.0)
+		#animation.self_modulate = lerp(Color(1,1,1,0), Color(1,1,1,1), 0.1)
 		
 	if velocity.x < 0: animation.flip_h = true;
 	if velocity.x > 0: animation.flip_h = false;
 
 
-
-
-
-
-
-
 func _on_area_2d_body_entered(body):
-	if body.is_in_group('ghost'):
+	if body.is_in_group('ghost') and hurt_gcd.is_stopped():
 		Game.reducePlayerSanity();
+		hurt_gcd.start(1)
