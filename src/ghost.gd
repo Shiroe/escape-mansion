@@ -11,12 +11,13 @@ var direction = 1
 @onready var pathFollow: PathFollow2D = $".."
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
 @onready var player: CharacterBody2D = $"../../../Player";
+@onready var navigationAgent : NavigationAgent2D = $NavigationAgent2D
+@onready var stunGCD: Timer = $StunGCD
 
-
+var lastKnownPlayerPos;
 var lastPatrolPosition;
 var hasReturnedToLastPatrolPosition = true;
-
-@onready var stunGCD: Timer = $StunGCD
+var hasAggro = false
 var isStunned = false;
 
 # Called when the node enters the scene tree for the first time.
@@ -55,48 +56,58 @@ func _physics_process(delta):
 		sprite.play("idle")
 		if not isChasing:
 			if hasReturnedToLastPatrolPosition:
-				if patrol_type == 'loop':
-					pathFollow.progress += delta * speed
-				else:
-					if direction == 1:
-						if pathFollow.progress_ratio == 1:
-							direction = 0
-						else:
-							pathFollow.progress += delta * speed
-					else:
-						if pathFollow.progress_ratio == 0:
-							direction = 1
-						else:
-							pathFollow.progress_ratio -= delta * speed
-				lastPatrolPosition = global_position;
+				doPatrol(delta)
 			else:
 				moveBackToPatrol()
 		else:
-			if not isChasing:
-				if hasReturnedToLastPatrolPosition:
-					pathFollow.progress += delta * speed
-					lastPatrolPosition = global_position;
-				else:
-					moveBackToPatrol()
+			hasReturnedToLastPatrolPosition = false;
+			
+			moveTo(lastKnownPlayerPos)
+			if hasAggro:
+				if navigationAgent.is_navigation_finished():
+					var hasPlayerView = isSeeingPlayer(lastKnownPlayerPos)
+					if hasPlayerView and hasPlayerView.playerPos and hasPlayerView.distance <= 100:
+						moveTo(hasPlayerView.playerPos)
+					else:
+						hasAggro = false
+						isChasing = false
 			else:
-				hasReturnedToLastPatrolPosition = false;
-				var direction = (player.global_position - global_position).normalized();
-				velocity = direction * lerp(speed, chaseSpeed, 0.8);
-			move_and_slide();
-		
+				moveBackToPatrol();
+
+		move_and_slide();
+
+
 func moveBackToPatrol():
 	if lastPatrolPosition and not hasReturnedToLastPatrolPosition: 
-		if global_position.floor() == lastPatrolPosition.floor():
-			hasReturnedToLastPatrolPosition = true;
-			velocity = Vector2.ZERO;
+		if navigationAgent.is_target_reached():
+			global_position = lerp(global_position, lastPatrolPosition, 1.0)
+			hasReturnedToLastPatrolPosition = true
+			velocity = Vector2.ZERO
 		else:
-			var direction = global_position.direction_to(lastPatrolPosition).normalized()
-			velocity = direction * speed;
+			moveTo(lastPatrolPosition)
+
+
+func doPatrol(delta):
+	if patrol_type == 'loop':
+		pathFollow.progress += delta * speed
+	else:
+		if direction == 1:
+			if pathFollow.progress_ratio == 1:
+				direction = 0
+			else:
+				pathFollow.progress += delta * speed
+		else:
+			if pathFollow.progress_ratio == 0:
+				direction = 1
+			else:
+				pathFollow.progress -= delta * speed
+	lastPatrolPosition = global_position;
 
 
 func detectPlayer():
 	# TODO: fix position checking, values are wrong
 	var distance = global_position.distance_to(player.global_position);
+	
 	print('Distance to player', distance);
 	if distance <= 64:
 		isChasing = true;
@@ -105,14 +116,32 @@ func detectPlayer():
 	
 
 
+func isSeeingPlayer(playerPos):
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(global_position, playerPos,
+		collision_mask, [self])
+	var result = space_state.intersect_ray(query)
+	
+	if result and result.collider.is_in_group('player'):
+		lastKnownPlayerPos = result.collider.global_position
+		var distance = global_position.distance_to(lastKnownPlayerPos)
+		hasAggro = true
+		return { 'playerPos': lastKnownPlayerPos, 'distance': distance}
+
+	return null
+
+
+func moveTo(pos):
+	navigationAgent.target_position = pos
+	var navDirection = (navigationAgent.get_next_path_position() - global_position).normalized()
+	velocity = navDirection * lerp(speed, chaseSpeed, 0.8);
+
+
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":
-		isChasing = true;
+		if isSeeingPlayer(body.global_position):
+			isChasing = true
 
-
-func _on_area_2d_body_exited(body):
-	if body.name == "Player":
-		isChasing = false;
 
 func stun():
 	#collision_shape_2d.call_deferred("set", "disabled", true)
@@ -120,9 +149,8 @@ func stun():
 	stunGCD.start(2)
 	isStunned = true
 
+
 func _on_stun_gcd_timeout() -> void:
-	print('timeout called')
 	isStunned = false
 	collision_shape_2d.disabled = false
-	print('is stunned? ', isStunned)
 	#collision_shape_2d.call_deferred("set", "disabled", false)
