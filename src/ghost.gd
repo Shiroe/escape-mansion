@@ -11,17 +11,17 @@ var direction = 1
 @onready var pathFollow: PathFollow2D = $".."
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
 @onready var player: CharacterBody2D = $"../../../Player";
-#@onready var ray: RayCast2D = $RayCast2D;
+
 
 var lastPatrolPosition;
 var hasReturnedToLastPatrolPosition = true;
 
-var stunGCD: Timer = Timer.new();
+@onready var stunGCD: Timer = $StunGCD
 var isStunned = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	add_child(stunGCD);
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,6 +52,7 @@ func _physics_process(delta):
 		sprite.play("stun");
 		return;
 	else:
+		sprite.play("idle")
 		if not isChasing:
 			if hasReturnedToLastPatrolPosition:
 				if patrol_type == 'loop':
@@ -71,7 +72,6 @@ func _physics_process(delta):
 			else:
 				moveBackToPatrol()
 		else:
-			sprite.play("idle")
 			if not isChasing:
 				if hasReturnedToLastPatrolPosition:
 					pathFollow.progress += delta * speed
@@ -114,15 +114,15 @@ func _on_area_2d_body_exited(body):
 	if body.name == "Player":
 		isChasing = false;
 
+func stun():
+	#collision_shape_2d.call_deferred("set", "disabled", true)
+	collision_shape_2d.disabled = true
+	stunGCD.start(2)
+	isStunned = true
 
-func _on_hit_area_area_entered(area):
-	if area.name == "FlashLightArea":
-		print('hit by flashlight')
-		collision_shape_2d.call_deferred("set", "disabled", true)
-		stunGCD.start(2);
-		isStunned = true;
-		stunGCD.timeout.connect(
-			func(): 
-				isStunned = false
-				collision_shape_2d.call_deferred("set", "disabled", false)
-		)
+func _on_stun_gcd_timeout() -> void:
+	print('timeout called')
+	isStunned = false
+	collision_shape_2d.disabled = false
+	print('is stunned? ', isStunned)
+	#collision_shape_2d.call_deferred("set", "disabled", false)

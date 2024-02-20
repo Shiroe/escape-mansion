@@ -22,7 +22,7 @@
 [ext_resource type="Script" path="res://src/key.gd" id="20_t1kx5"]
 [ext_resource type="Texture2D" uid="uid://bbmyaeqqxof3a" path="res://assets/lever-sprite.png" id="21_jps4b"]
 [ext_resource type="Script" path="res://src/lever1.gd" id="22_6vmbs"]
-[ext_resource type="PackedScene" path="res://scenes/victory.tscn" id="23_h0onb"]
+[ext_resource type="PackedScene" uid="uid://cyypytoko5qbn" path="res://scenes/victory.tscn" id="23_h0onb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
 texture = ExtResource("1_huc24")
@@ -7264,7 +7264,6 @@ libraries = {
 
 [node name="Player" parent="." instance=ExtResource("8_0enar")]
 position = Vector2(1487, 928)
-motion_mode = 1
 SPEED = 120.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
@@ -7278,7 +7277,7 @@ curve = SubResource("Curve2D_853mi")
 position = Vector2(812, 881)
 rotates = false
 
-[node name="CharacterBody2D2" parent="corridor1Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="Ghost" parent="corridor1Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 position = Vector2(-1.00002, -2.99997)
 rotation = -0.0165731
 
@@ -7309,7 +7308,7 @@ progress = 66.7392
 rotates = false
 loop = false
 
-[node name="CharacterBody2D3" parent="entrance enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
+[node name="Ghost" parent="entrance enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 position = Vector2(-9.75281, 1)
 patrol_type = "linear"
 
