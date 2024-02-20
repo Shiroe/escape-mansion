@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=66 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Script" path="res://src/test_level.gd" id="1_1k7gl"]
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
@@ -19,9 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://ceom6nsqk23ec" path="res://scenes/light.tscn" id="16_lenck"]
 [ext_resource type="Texture2D" uid="uid://b1aqjrfclt7su" path="res://assets/door.png" id="17_edfsv"]
 [ext_resource type="Texture2D" uid="uid://biy1u5y1gil1x" path="res://assets/key-sprite.png" id="19_6xrpw"]
-[ext_resource type="Script" path="res://src/key.gd" id="20_t1kx5"]
 [ext_resource type="Texture2D" uid="uid://bbmyaeqqxof3a" path="res://assets/lever-sprite.png" id="21_jps4b"]
-[ext_resource type="Script" path="res://src/lever1.gd" id="22_6vmbs"]
 [ext_resource type="PackedScene" uid="uid://cyypytoko5qbn" path="res://scenes/victory.tscn" id="23_h0onb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
@@ -7007,7 +7005,7 @@ point_count = 4
 
 [sub_resource type="Curve2D" id="Curve2D_w0ymk"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1680, 920, 0, 0, 0, 0, 1828, 923, 0, 0, 0, 0, 1828, 680)
+"points": PackedVector2Array(0, 0, 0, 0, 1680, 920, 0, 0, 0, 0, 1837, 923, 0, 0, 0, 0, 1834, 678)
 }
 point_count = 3
 
@@ -7241,16 +7239,16 @@ texture = SubResource("GradientTexture2D_7q505")
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.219608, 0.219608, 0.219608, 1)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="finalDoor" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="finalDoor"]
 z_index = 2
 position = Vector2(670.5, 521)
 rotation = 1.5708
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_di3rn")
 
-[node name="finalDoor" type="Sprite2D" parent="StaticBody2D"]
+[node name="finalDoor" type="Sprite2D" parent="finalDoor"]
 z_index = 1
 position = Vector2(703, 520)
 rotation = 1.5708
@@ -7259,13 +7257,13 @@ texture = ExtResource("17_edfsv")
 centered = false
 offset = Vector2(-8, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D"]
+[node name="finalDoorAnimationPlayer" type="AnimationPlayer" parent="finalDoor"]
 libraries = {
 "": SubResource("AnimationLibrary_vn52n")
 }
 
 [node name="Player" parent="." instance=ExtResource("8_0enar")]
-position = Vector2(1440, 699)
+position = Vector2(1491, 922)
 SPEED = 120.0
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
@@ -7352,11 +7350,10 @@ navigation_polygon = SubResource("NavigationPolygon_x3tmy")
 z_index = 1
 position = Vector2(1640, 920)
 texture = ExtResource("19_6xrpw")
-script = ExtResource("20_t1kx5")
 
-[node name="Area2D" type="Area2D" parent="key"]
+[node name="keyArea" type="Area2D" parent="key"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="key/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="key/keyArea"]
 scale = Vector2(1.3, 1.3)
 shape = SubResource("CircleShape2D_167m6")
 
@@ -7377,48 +7374,49 @@ curve = SubResource("Curve2D_w0ymk")
 [node name="PathFollow2D" type="PathFollow2D" parent="keyGhost"]
 position = Vector2(1680, 920)
 rotates = false
+loop = false
 
 [node name="Ghost" parent="keyGhost/PathFollow2D" instance=ExtResource("9_rq2aq")]
 patrol_type = "linear"
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="leverDoor" type="StaticBody2D" parent="."]
 position = Vector2(1760, 656)
 rotation = 1.5708
 scale = Vector2(2, 2)
 
-[node name="leverDoor" type="Sprite2D" parent="StaticBody2D2"]
+[node name="leverDoor" type="Sprite2D" parent="leverDoor"]
 z_index = 1
 texture = ExtResource("17_edfsv")
 centered = false
 offset = Vector2(-8, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leverDoor"]
 z_index = 1
 position = Vector2(-0.249969, 16.4998)
 shape = SubResource("RectangleShape2D_ps60f")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D2"]
+[node name="leverDoorAnimationPlayer" type="AnimationPlayer" parent="leverDoor"]
 libraries = {
 "": SubResource("AnimationLibrary_5yki2")
 }
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="keyDoor" type="StaticBody2D" parent="."]
 position = Vector2(1871, 656)
 rotation = 1.5708
 scale = Vector2(2.5, 2.5)
 
-[node name="keyDoor" type="Sprite2D" parent="StaticBody2D3"]
+[node name="keyDoor" type="Sprite2D" parent="keyDoor"]
 z_index = 1
 texture = ExtResource("17_edfsv")
 centered = false
 offset = Vector2(-8, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="keyDoor"]
 z_index = 1
 position = Vector2(0, 15.8)
 shape = SubResource("RectangleShape2D_en0ri")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="StaticBody2D3"]
+[node name="keyDoorAnimationPlayer" type="AnimationPlayer" parent="keyDoor"]
 libraries = {
 "": SubResource("AnimationLibrary_3e1k0")
 }
@@ -7427,16 +7425,15 @@ libraries = {
 z_index = 1
 position = Vector2(678, 855)
 texture = ExtResource("21_jps4b")
-script = ExtResource("22_6vmbs")
 
 [node name="Area2D" type="Area2D" parent="lever1"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="lever1/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="Area2D2" type="Area2D" parent="lever1"]
+[node name="lever1Area" type="Area2D" parent="lever1"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever1/Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lever1/lever1Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
@@ -7450,9 +7447,9 @@ texture = ExtResource("21_jps4b")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="lever2/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="level2Area" type="Area2D" parent="lever2"]
+[node name="lever2Area" type="Area2D" parent="lever2"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever2/level2Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lever2/lever2Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
@@ -7466,9 +7463,9 @@ texture = ExtResource("21_jps4b")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="lever3/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="level3Area" type="Area2D" parent="lever3"]
+[node name="lever3Area" type="Area2D" parent="lever3"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever3/level3Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lever3/lever3Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
@@ -7513,8 +7510,8 @@ occluder = SubResource("OccluderPolygon2D_fdysc")
 position = Vector2(0, -255)
 occluder = SubResource("OccluderPolygon2D_fdysc")
 
-[connection signal="body_entered" from="key/Area2D" to="key" method="_on_area_2d_body_entered"]
-[connection signal="body_entered" from="lever1/Area2D2" to="lever1" method="_on_area_2d_2_body_entered"]
-[connection signal="body_entered" from="lever2/level2Area" to="." method="_on_level_2_area_body_entered"]
-[connection signal="body_entered" from="lever3/level3Area" to="." method="_on_level_3_area_body_entered"]
+[connection signal="body_entered" from="key/keyArea" to="." method="_on_key_area_body_entered"]
+[connection signal="body_entered" from="lever1/lever1Area" to="." method="_on_lever_1_area_body_entered"]
+[connection signal="body_entered" from="lever2/lever2Area" to="." method="_on_level_2_area_body_entered"]
+[connection signal="body_entered" from="lever3/lever3Area" to="." method="_on_level_3_area_body_entered"]
 [connection signal="body_entered" from="VictoryPoint" to="." method="_on_victory_point_body_entered"]

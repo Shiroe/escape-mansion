@@ -4,6 +4,7 @@ var PlayerSanity := 100;
 var Battery := 100;
 
 var isKeyFound = false
+var lever1Found = false
 var lever2Found = false
 var lever3Found = false
 var hasWon = false
@@ -20,7 +21,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
@@ -37,6 +38,7 @@ func GameOver():
 func reset():
 	PlayerSanity = 100;
 	isKeyFound = false
+	lever1Found = false
 	lever2Found = false
 	lever3Found = false
 	hasWon = false
