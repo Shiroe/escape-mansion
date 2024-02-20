@@ -26,7 +26,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var lantern: PointLight2D = player.get_node('LanternLight2');
 	var light_position = player.global_position;
 	var light_radius = 128;

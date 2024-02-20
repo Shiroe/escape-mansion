@@ -33,7 +33,7 @@ func _ready() -> void:
 	rays = [ray1, ray2, ray3, ray4, ray5]
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if Game.hasWon:
 		animation.play('idle')
 		return
@@ -92,7 +92,7 @@ func _on_area_2d_body_entered(body):
 		hurt_gcd.start(1)
 
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	isFlashLightOn = false;
 	for ray in rays:
 		ray.enabled = false
