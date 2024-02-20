@@ -146,7 +146,7 @@ func _on_area_2d_body_entered(body):
 func stun():
 	#collision_shape_2d.call_deferred("set", "disabled", true)
 	collision_shape_2d.disabled = true
-	stunGCD.start(2)
+	stunGCD.start(1.2)
 	isStunned = true
 
 

@@ -89,7 +89,7 @@ func updateAnimation():
 func _on_area_2d_body_entered(body):
 	if body.is_in_group('ghost') and hurt_gcd.is_stopped():
 		Game.reducePlayerSanity();
-		hurt_gcd.start(1)
+		hurt_gcd.start(0.5)
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
