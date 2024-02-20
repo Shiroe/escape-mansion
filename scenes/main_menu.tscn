@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2rg1p1p0qb4p"]
+[gd_scene load_steps=4 format=3 uid="uid://b2rg1p1p0qb4p"]
 
 [ext_resource type="PackedScene" uid="uid://dh266m6vmqgko" path="res://scenes/parallax_background.tscn" id="1_flsbo"]
 [ext_resource type="Script" path="res://src/main_menu.gd" id="1_t81jw"]
 [ext_resource type="Texture2D" uid="uid://84qu70dkpoes" path="res://assets/Button.png" id="2_67rvv"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_gk2x5"]
-font_size = 60
-font_color = Color(0, 0, 0, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_t81jw")
@@ -50,9 +46,14 @@ alignment = 1
 
 [node name="Title" type="Label" parent="CanvasLayer/Control/BoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Escape Mansion"
-label_settings = SubResource("LabelSettings_gk2x5")
+theme_override_colors/font_color = Color(0.454902, 0.196078, 0.239216, 1)
+theme_override_colors/font_shadow_color = Color(0.811765, 0.423529, 0.494118, 1)
+theme_override_colors/font_outline_color = Color(0.811765, 0.423529, 0.494118, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 80
+text = "Ghost Escape"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/BoxContainer/HBoxContainer/VBoxContainer"]
