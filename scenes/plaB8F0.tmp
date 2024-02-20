@@ -239,7 +239,8 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 6
-motion_mode = 1
+collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_403ti")
 
 [node name="CharacterHitBox" type="CollisionShape2D" parent="."]
@@ -307,7 +308,7 @@ position = Vector2(1.19209e-07, 0)
 rotation = -0.780826
 enabled = false
 color = Color(1, 1, 0.862745, 1)
-energy = 10.0
+energy = 0.0
 shadow_enabled = true
 texture = ExtResource("5_3qnkt")
 offset = Vector2(32, 32)
@@ -333,23 +334,28 @@ polygon = PackedVector2Array(-7.6, -10, 10, 2.2, 9.9, 2.8, 9.1, 4, 8.45, 5.2, 7.
 [node name="FlashRayCast1" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(73, -17)
+collision_mask = 8
 hit_from_inside = true
 
 [node name="FlashRayCast2" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(76, -9)
+collision_mask = 8
 
 [node name="FlashRayCast3" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(77, 0)
+collision_mask = 8
 
 [node name="FlashRayCast4" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(75, 12)
+collision_mask = 8
 
 [node name="FlashRayCast5" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(70, 21)
+collision_mask = 8
 
 [node name="HurtGCD" type="Timer" parent="."]
 one_shot = true
@@ -361,4 +367,3 @@ libraries = {
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="HurtBox/DisableHurtBoxTimer" to="HurtBox" method="_on_disable_hurt_box_timer_timeout"]
-[connection signal="animation_finished" from="Marker2D/FlashLight/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

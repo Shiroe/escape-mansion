@@ -8,6 +8,7 @@ extends Node2D
 @onready var progress_bar: ProgressBar = $HUD/ProgressBar
 @onready var victory: CanvasLayer = $Victory
 
+
 var animation_played = false
 
 func _ready() -> void:
@@ -19,6 +20,7 @@ func _process(delta: float) -> void:
 		animation_played = true
 	
 	progress_bar.value = Game.PlayerSanity
+
 
 func _on_level_2_area_body_entered(body: Node2D) -> void:
 	if body == player:
