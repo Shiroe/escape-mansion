@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bw8v2hcftaa5"]
+[gd_scene load_steps=7 format=3 uid="uid://csi86iatlfx0l"]
 
 [ext_resource type="Texture2D" uid="uid://buvfvc2q1ldiy" path="res://assets/tutorial-label.png" id="1_o74kh"]
 [ext_resource type="Texture2D" uid="uid://84qu70dkpoes" path="res://assets/Button.png" id="2_3c2cb"]
@@ -6,6 +6,15 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_13tqr"]
 radius = 20.0
+
+[sub_resource type="Gradient" id="Gradient_d6jw5"]
+offsets = PackedFloat32Array(0, 0.756691, 0.93674, 1)
+colors = PackedColorArray(0.184314, 0.196078, 0.364706, 1, 0.223529, 0.270588, 0.427451, 1, 0.258824, 0.345098, 0.47451, 1, 0.286275, 0.419608, 0.513726, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_al6u0"]
+gradient = SubResource("Gradient_d6jw5")
+fill_from = Vector2(0.452991, 0.57265)
+fill_to = Vector2(1, 1)
 
 [node name="WoodenLabel" type="Sprite2D"]
 z_index = 3
@@ -23,38 +32,62 @@ shape = SubResource("CircleShape2D_13tqr")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-custom_minimum_size = Vector2(200, 160)
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -160.0
-offset_right = 100.0
-grow_horizontal = 2
-grow_vertical = 0
-texture = ExtResource("2_3c2cb")
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="CanvasLayer/TextureRect"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -77.0
-offset_top = -50.5
-offset_right = 77.0
-offset_bottom = 50.5
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer"]
+custom_minimum_size = Vector2(600, 200)
+anchors_preset = -1
+anchor_left = 0.346
+anchor_top = 0.417
+anchor_right = 0.651
+anchor_bottom = 0.556
+offset_left = -4.32001
+offset_top = 329.64
+offset_right = 10.08
+offset_bottom = 379.52
 grow_horizontal = 2
 grow_vertical = 2
-text = "Movement: WASD
-Aim: Mouse
-Flashlight: Left Click
-Lantern: Right Click"
+texture = ExtResource("2_3c2cb")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_al6u0")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/NinePatchRect/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_colors/font_color = Color(0.54902, 0.835294, 0.537255, 1)
+theme_override_colors/font_shadow_color = Color(0.321569, 0.54902, 0.623529, 1)
+theme_override_colors/font_outline_color = Color(0.329412, 0.635294, 0.584314, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/outline_size = 1
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 20
+text = "test"
+vertical_alignment = 1
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
