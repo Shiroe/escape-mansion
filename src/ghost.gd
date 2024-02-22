@@ -19,7 +19,11 @@ var lastPatrolPosition;
 var hasReturnedToLastPatrolPosition = true;
 var hasAggro = false
 var isStunned = false;
-
+var hit_pos
+var target
+var laser_color = Color.WHITE
+var vis_color = Color(.867, .91, .247, 0.1)
+var detect_radius = 128
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -66,7 +70,7 @@ func _physics_process(delta):
 			if hasAggro:
 				if navigationAgent.is_navigation_finished():
 					var hasPlayerView = isSeeingPlayer(lastKnownPlayerPos)
-					if hasPlayerView and hasPlayerView.playerPos and hasPlayerView.distance <= 100:
+					if hasPlayerView and hasPlayerView.playerPos and hasPlayerView.distance <= detect_radius:
 						moveTo(hasPlayerView.playerPos)
 					else:
 						hasAggro = false
@@ -75,7 +79,6 @@ func _physics_process(delta):
 				moveBackToPatrol();
 
 		move_and_slide();
-
 
 func moveBackToPatrol():
 	if lastPatrolPosition and not hasReturnedToLastPatrolPosition: 
@@ -118,17 +121,34 @@ func detectPlayer():
 
 func isSeeingPlayer(playerPos):
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, playerPos,
-		collision_mask, [self])
-	var result = space_state.intersect_ray(query)
+	var rays = 36
+	var angleStep = 2 * PI / rays
+	hit_pos = []
 	
-	if result and result.collider.is_in_group('player'):
-		lastKnownPlayerPos = result.collider.global_position
-		var distance = global_position.distance_to(lastKnownPlayerPos)
-		hasAggro = true
-		return { 'playerPos': lastKnownPlayerPos, 'distance': distance}
+	for i in rays:
+		var angle = i * angleStep
+		var rayStart = global_position
+		var rayEnd = Vector2(cos(angle), sin(angle)) * detect_radius
+		var rayEndGlobal = rayStart + rayEnd
+		var query = PhysicsRayQueryParameters2D.create(rayStart, rayEndGlobal,
+			collision_mask, [self])
+		var result = space_state.intersect_ray(query)
+		if result and result.collider:
+			if result.collider.is_in_group('player'):
+				lastKnownPlayerPos = result.collider.position
+				var distance = global_position.distance_to(lastKnownPlayerPos)
+				hasAggro = true
+				return { 'playerPos': lastKnownPlayerPos, 'distance': distance}
 
 	return null
+
+
+func _draw() -> void:
+	draw_circle(Vector2(), detect_radius, vis_color)
+	if target:
+		for hit in hit_pos:
+			draw_circle((hit - position).rotated(-rotation), 5, laser_color)
+			draw_line(Vector2(), (hit - position).rotated(-rotation), laser_color)
 
 
 func moveTo(pos):
@@ -138,6 +158,7 @@ func moveTo(pos):
 
 
 func _on_area_2d_body_entered(body):
+	target = body
 	if body.name == "Player":
 		if isSeeingPlayer(body.global_position):
 			isChasing = true

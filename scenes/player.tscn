@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://datl1as4fh7ml" path="res://assets/Pixel Crawler - FREE - 1.8/Heroes/Rogue/Run/Run-Sheet.png" id="3_xthmu"]
 [ext_resource type="Texture2D" uid="uid://c6hgvctoaoh5b" path="res://assets/cone-lightmap.png" id="5_3qnkt"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ge8p"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ykf40"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpln4"]
 radius = 11.0
@@ -243,7 +243,7 @@ motion_mode = 1
 script = ExtResource("1_403ti")
 
 [node name="CharacterHitBox" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_7ge8p")
+shape = SubResource("CapsuleShape2D_ykf40")
 
 [node name="HurtBox" type="Area2D" parent="."]
 
