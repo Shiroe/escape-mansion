@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" path="res://assets/nine-patch-rect-fill.png" id="22_xsnei"]
 [ext_resource type="PackedScene" uid="uid://b1dnsbol8aj84" path="res://scenes/victory.tscn" id="23_h0onb"]
 [ext_resource type="AudioStream" uid="uid://bs2o18cuete4q" path="res://assets/sfx/game-level-complete.mp3" id="25_pd4dk"]
+[ext_resource type="PackedScene" uid="uid://csi86iatlfx0l" path="res://scenes/wooden_label.tscn" id="22_tfn4b"]
+[ext_resource type="PackedScene" uid="uid://b1dnsbol8aj84" path="res://scenes/victory.tscn" id="23_h0onb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
 texture = ExtResource("1_huc24")
@@ -7615,36 +7617,31 @@ occluder = SubResource("OccluderPolygon2D_fdysc")
 position = Vector2(0, -255)
 occluder = SubResource("OccluderPolygon2D_fdysc")
 
-[node name="WoodenLabel" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1514, 863)
-
-[node name="Label" parent="WoodenLabel/CanvasLayer/TextureRect" index="0"]
-text = "Movement: WASD
-Aim: Mouse
-Flashlight: Left Click
-Lantern: Right Click
-Interact: E"
-
-[node name="WoodenLabel3" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1418, 863)
-
-[node name="Label" parent="WoodenLabel3/CanvasLayer/TextureRect" index="0"]
-text = "You have limited batteries. Use them wisely."
-autowrap_mode = 3
+[node name="WoodenLabel1" parent="." instance=ExtResource("22_tfn4b")]
+position = Vector2(1513, 869)
+LabelText = "Controls:
+- Use WASD to move around.
+- Press Left Mouse click to use the Flashlight
+- Press Right Mouse click toggle the Red Lantern"
 
 [node name="WoodenLabel2" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1331, 771)
+position = Vector2(1434, 959)
+LabelText = "What is happening:
+There are some invisible ghost wandering around.
+You can see them by toggling-on the Red Lantern. 
+Be conscious though! using your Lantern or Flashlight
+consumes energy from your batteries!"
 
-[node name="Label" parent="WoodenLabel2/CanvasLayer/TextureRect" index="0"]
-text = "Try to stun ghosts with your flashlight. Some ghosts are only visible with your lantern."
-autowrap_mode = 2
+[node name="WoodenLabel3" parent="." instance=ExtResource("22_tfn4b")]
+position = Vector2(1319, 909)
+LabelText = "What can you do:
+- If you go to close to a ghost it is going to attack you!
+- You should try to avoid being detected by sneaking around.
+- In case ghost comes after you use the flashlight!
+! Be sure to aim on their direction with your mouse!"
 
 [connection signal="body_entered" from="key/keyArea" to="." method="_on_key_area_body_entered"]
 [connection signal="body_entered" from="lever1/lever1Area" to="." method="_on_lever_1_area_body_entered"]
 [connection signal="body_entered" from="lever2/lever2Area" to="." method="_on_level_2_area_body_entered"]
 [connection signal="body_entered" from="lever3/lever3Area" to="." method="_on_level_3_area_body_entered"]
 [connection signal="body_entered" from="VictoryPoint" to="." method="_on_victory_point_body_entered"]
-
-[editable path="WoodenLabel"]
-[editable path="WoodenLabel3"]
-[editable path="WoodenLabel2"]
