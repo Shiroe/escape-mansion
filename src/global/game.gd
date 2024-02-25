@@ -1,7 +1,7 @@
 extends Node
 
 var PlayerSanity := 100;
-var Battery := 100;
+var PlayerEnergy := 100;
 
 var isKeyFound = false
 var lever1Found = false

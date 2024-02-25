@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bkbmjgr4xtqda"]
+[gd_scene load_steps=38 format=3 uid="uid://bkbmjgr4xtqda"]
 
 [ext_resource type="Texture2D" uid="uid://bp0k8og5wurs6" path="res://assets/Pixel Crawler - FREE - 1.8/Heroes/Rogue/Death/Death-Sheet.png" id="1_71rvj"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_403ti"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://brycw81xdvg88" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_ud7mg"]
 [ext_resource type="Texture2D" uid="uid://datl1as4fh7ml" path="res://assets/Pixel Crawler - FREE - 1.8/Heroes/Rogue/Run/Run-Sheet.png" id="3_xthmu"]
 [ext_resource type="Texture2D" uid="uid://c6hgvctoaoh5b" path="res://assets/cone-lightmap.png" id="5_3qnkt"]
+[ext_resource type="AudioStream" uid="uid://cd57aaxnr0gj0" path="res://assets/sfx/simple-gunshot-reverb.mp3" id="7_mgqh7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ykf40"]
 
@@ -187,7 +188,7 @@ tracks/0/path = NodePath(".:energy")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1, 0.75),
+"times": PackedFloat32Array(0.05, 0.75),
 "transitions": PackedFloat32Array(0.108819, 1),
 "update": 0,
 "values": [10.0, 0.0]
@@ -203,6 +204,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.926817),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_detja"]
@@ -261,7 +274,9 @@ sprite_frames = SubResource("SpriteFrames_qfsv6")
 animation = &"hurt"
 autoplay = "idle"
 
-[node name="LanternLight2" type="PointLight2D" parent="."]
+[node name="LanternNode" type="Node2D" parent="."]
+
+[node name="LanternLight2" type="PointLight2D" parent="LanternNode"]
 enabled = false
 color = Color(1, 0, 0, 0.745098)
 energy = 3.0
@@ -269,12 +284,12 @@ shadow_enabled = true
 shadow_filter = 2
 texture = ExtResource("2_ud7mg")
 
-[node name="OuterLanternArea" type="Area2D" parent="LanternLight2"]
+[node name="OuterLanternArea" type="Area2D" parent="LanternNode/LanternLight2"]
 
-[node name="OuterLanternCollision" type="CollisionShape2D" parent="LanternLight2/OuterLanternArea"]
+[node name="OuterLanternCollision" type="CollisionShape2D" parent="LanternNode/LanternLight2/OuterLanternArea"]
 shape = SubResource("CircleShape2D_tum6i")
 
-[node name="LanternLight" type="PointLight2D" parent="."]
+[node name="LanternLight" type="PointLight2D" parent="LanternNode"]
 enabled = false
 color = Color(1, 0, 0, 1)
 energy = 6.0
@@ -284,10 +299,13 @@ texture = ExtResource("2_ud7mg")
 texture_scale = 0.5
 height = 10.0
 
-[node name="InnerLanternArea" type="Area2D" parent="LanternLight"]
+[node name="InnerLanternArea" type="Area2D" parent="LanternNode/LanternLight"]
 
-[node name="InnerLanternCollision" type="CollisionShape2D" parent="LanternLight/InnerLanternArea"]
+[node name="InnerLanternCollision" type="CollisionShape2D" parent="LanternNode/LanternLight/InnerLanternArea"]
 shape = SubResource("CircleShape2D_m2gya")
+
+[node name="energyTick" type="Timer" parent="LanternNode"]
+one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
@@ -330,6 +348,10 @@ scale = Vector2(3.2, 3.2)
 build_mode = 1
 polygon = PackedVector2Array(-7.6, -10, 10, 2.2, 9.9, 2.8, 9.1, 4, 8.45, 5.2, 7.75, 6.3, 6.2, 8, 3.34702, 9.38461, 0.919399, 10.0586, 0.4, 9.8, -9.98989, -7.79031, -10, -10)
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Marker2D/FlashLight"]
+stream = ExtResource("7_mgqh7")
+volume_db = 15.0
+
 [node name="FlashRayCast1" type="RayCast2D" parent="Marker2D"]
 enabled = false
 target_position = Vector2(73, -17)
@@ -361,4 +383,5 @@ libraries = {
 
 [connection signal="body_entered" from="HurtBox" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="HurtBox/DisableHurtBoxTimer" to="HurtBox" method="_on_disable_hurt_box_timer_timeout"]
+[connection signal="timeout" from="LanternNode/energyTick" to="." method="_on_energy_tick_timeout"]
 [connection signal="animation_finished" from="Marker2D/FlashLight/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

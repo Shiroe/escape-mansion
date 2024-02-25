@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
 @onready var animation: AnimatedSprite2D = $AnimatedSprite2D;
-@onready var lantern: PointLight2D = $LanternLight;
-@onready var lanternOuter: PointLight2D = $LanternLight2;
+@onready var lantern: PointLight2D = $LanternNode/LanternLight;
+@onready var lanternOuter: PointLight2D = $LanternNode/LanternLight2;
+@onready var lanternEnergyTickGCD: Timer = $LanternNode/energyTick;
 @onready var flashMarker: Marker2D = $Marker2D;
 @onready var flashLight: PointLight2D = $Marker2D/FlashLight;
 @onready var flashLightAnimation: AnimationPlayer = $Marker2D/FlashLight/AnimationPlayer;
@@ -37,23 +38,40 @@ func _physics_process(_delta):
 	if Game.hasWon:
 		animation.play('idle')
 		return
-	
-	handleInput();
 
+	handleMovementInput();
 
 	if Input.is_action_just_pressed("mouse_right_click"):
-		lantern.enabled = !lantern.enabled;
-		lanternOuter.enabled = !lanternOuter.enabled;
+		toggleLantern();
 		
 	if Input.is_action_just_pressed("mouse_left_click"):
 		doFlash();
 	
-	move_and_slide();
+	lanternEnergyConsumption();
 	updateAnimation();
+	move_and_slide();
+
+
+
+func toggleLantern():
+	lantern.enabled = !lantern.enabled;
+	lanternOuter.enabled = !lanternOuter.enabled;
 	
-	
+	# This is to prevent extra ticks after closing the lantern.
+	if lantern.enabled == false and not lanternEnergyTickGCD.is_stopped():
+		lanternEnergyTickGCD.stop();
+
+
+
+func lanternEnergyConsumption():
+	if (lantern.enabled and lanternOuter.enabled) and lanternEnergyTickGCD.is_stopped():
+		lanternEnergyTickGCD.start(1.0);
+
+
+
 func doFlash():
-	if not flashLight.enabled and flashLightGCD.is_stopped():
+	if not flashLight.enabled and flashLightGCD.is_stopped() and Game.PlayerEnergy >= 5:
+		Game.PlayerEnergy -= 5;
 		isFlashLightOn = true;
 		flashMarker.rotation = get_angle_to(get_global_mouse_position())
 		flashLightGCD.start(0.5);
@@ -67,10 +85,14 @@ func doFlash():
 				if collider.is_in_group('ghost'):
 					collider.stun()
 
-func handleInput():
+
+
+func handleMovementInput():
 	var moveDirection = Input.get_vector("left", "right", "forward", "backwards");
 	velocity = moveDirection * SPEED;
-	
+
+
+
 func updateAnimation():
 	if hurt_gcd.is_stopped():
 		hurtAnimation.stop()
@@ -86,10 +108,12 @@ func updateAnimation():
 	if velocity.x > 0: animation.flip_h = false;
 
 
+
 func _on_area_2d_body_entered(body):
 	if body.is_in_group('ghost') and hurt_gcd.is_stopped():
 		Game.reducePlayerSanity();
 		hurt_gcd.start(0.5)
+
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
@@ -97,3 +121,8 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	for ray in rays:
 		ray.enabled = false
 
+
+
+func _on_energy_tick_timeout():
+	print('LANTERN TICK')
+	Game.PlayerEnergy -= 1;

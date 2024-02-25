@@ -28,7 +28,7 @@ var laser_color = Color.WHITE
 var vis_color = Color(.867, .91, .247, 0.1)
 var detect_radius = 128
 
-@onready var lantern: PointLight2D = player.get_node('LanternLight2');
+@onready var lantern: PointLight2D = player.get_node('LanternNode/LanternLight2');
 var lightPosition;
 var lightRadius;
 var distanceToLight;
@@ -43,7 +43,7 @@ func _ready():
 func _process(_delta):
 	# update variables for _draw function
 	lightPosition = player.global_position;
-	lightRadius = lantern.texture.get_width() / 2;
+	lightRadius = lantern.texture.get_width() / 2.0;
 	distanceToLight = lightPosition.distance_to(global_position)
 	transparency = clamp((lightRadius - distanceToLight) / lightRadius, 0.0, 1.0)
 	# Calculate the visible portion based on the light radius
