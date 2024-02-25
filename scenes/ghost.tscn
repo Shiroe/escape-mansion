@@ -109,7 +109,6 @@ radius = 64.0
 z_index = 2
 motion_mode = 1
 script = ExtResource("1_vn5fg")
-speed = 100
 chaseSpeed = 130
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

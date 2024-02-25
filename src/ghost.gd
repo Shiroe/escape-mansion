@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
 @export_category('stats')
-@export var speed := 60;
-@export var chaseSpeed := 120;
-@export var isChasing = false;
+@export var speed: int = 100;
+@export var chaseSpeed: int = 120;
+@export var isChasing: bool = false;
+@export var CUSTOM_DEBUG_AREA: bool = false;
+
 @export_enum("loop", "linear") var patrol_type = "loop"
 var direction = 1
 
@@ -14,42 +16,40 @@ var direction = 1
 @onready var navigationAgent : NavigationAgent2D = $NavigationAgent2D
 @onready var stunGCD: Timer = $StunGCD
 
+
 var lastKnownPlayerPos;
 var lastPatrolPosition;
 var hasReturnedToLastPatrolPosition = true;
 var hasAggro = false
 var isStunned = false;
-var hit_pos
+var hit_pos: Array = [];
 var target
 var laser_color = Color.WHITE
 var vis_color = Color(.867, .91, .247, 0.1)
 var detect_radius = 128
+
+@onready var lantern: PointLight2D = player.get_node('LanternLight2');
+var lightPosition;
+var lightRadius;
+var distanceToLight;
+var transparency;
+var visiblePortion
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var lantern: PointLight2D = player.get_node('LanternLight2');
-	var light_position = player.global_position;
-	var light_radius = 128;
-
-	var distance_to_light = light_position.distance_to(global_position)
-		
-		# Calculate the transparency based on the distance
-	var transparency = clamp((light_radius - distance_to_light) / light_radius, 0.0, 1.0)
-		
-		# Calculate the visible portion based on the light radius
-	var visible_portion = clamp((light_radius - distance_to_light) / light_radius, 0.0, 1.0)
-		
-		# Set the CanvasModulate property to control transparency
+	# update variables for _draw function
+	lightPosition = player.global_position;
+	lightRadius = lantern.texture.get_width() / 2;
+	distanceToLight = lightPosition.distance_to(global_position)
+	transparency = clamp((lightRadius - distanceToLight) / lightRadius, 0.0, 1.0)
+	# Calculate the visible portion based on the light radius
+	visiblePortion = clamp((lightRadius - distanceToLight) / lightRadius, 0.0, 1.0)
 	if lantern.enabled:
-		modulate.a = transparency
-		# Clip the visible portion using draw_rect
-		draw_rect(Rect2(0, 0, 32 * visible_portion, 32), Color(1, 1, 1, 1))
-	else:
-		modulate.a = 0.0;
+		queue_redraw()
 
 
 func _physics_process(delta):
@@ -69,7 +69,7 @@ func _physics_process(delta):
 			moveTo(lastKnownPlayerPos)
 			if hasAggro:
 				if navigationAgent.is_navigation_finished():
-					var hasPlayerView = isSeeingPlayer(lastKnownPlayerPos)
+					var hasPlayerView = isSeeingPlayer()
 					if hasPlayerView and hasPlayerView.playerPos and hasPlayerView.distance <= detect_radius:
 						moveTo(hasPlayerView.playerPos)
 					else:
@@ -77,8 +77,29 @@ func _physics_process(delta):
 						isChasing = false
 			else:
 				moveBackToPatrol();
-
+		
 		move_and_slide();
+
+
+func _draw() -> void:
+	# ----------------------------------------------------------------------------
+	# Calculate the transparency based on the distance
+	# Set the CanvasModulate property to control transparency
+	if lantern.enabled and isSeeingPlayer():
+		modulate.a = transparency
+		# Clip the visible portion using draw_rect
+		#draw_rect(Rect2(0, 0, 32 * visiblePortion, 32), Color(1, 1, 1, 1))
+	else:
+		modulate.a = 0.0;
+	# ----------------------------------------------------------------------------
+	
+	if CUSTOM_DEBUG_AREA:
+		draw_circle(Vector2(), detect_radius, vis_color)
+		if target and hit_pos.is_empty() == false:
+			for hit in hit_pos:
+				draw_line(Vector2(), (hit - global_position), laser_color)
+
+
 
 func moveBackToPatrol():
 	if lastPatrolPosition and not hasReturnedToLastPatrolPosition: 
@@ -107,48 +128,35 @@ func doPatrol(delta):
 	lastPatrolPosition = global_position;
 
 
-func detectPlayer():
-	# TODO: fix position checking, values are wrong
-	var distance = global_position.distance_to(player.global_position);
-	
-	print('Distance to player', distance);
-	if distance <= 64:
-		isChasing = true;
-	if distance >= 73:
-		isChasing = false;
-	
 
-
-func isSeeingPlayer(playerPos):
+func isSeeingPlayer():
 	var space_state = get_world_2d().direct_space_state
 	var rays = 36
 	var angleStep = 2 * PI / rays
-	hit_pos = []
-	
+	hit_pos.clear();
+
 	for i in rays:
 		var angle = i * angleStep
 		var rayStart = global_position
 		var rayEnd = Vector2(cos(angle), sin(angle)) * detect_radius
 		var rayEndGlobal = rayStart + rayEnd
+		
 		var query = PhysicsRayQueryParameters2D.create(rayStart, rayEndGlobal,
 			collision_mask, [self])
 		var result = space_state.intersect_ray(query)
+		
 		if result and result.collider:
 			if result.collider.is_in_group('player'):
-				lastKnownPlayerPos = result.collider.position
+				# result.position is the intersection point
+				# result.collider is the reference to Player node
+
+				hit_pos.append(result.position);
+				lastKnownPlayerPos = result.collider.global_position
+
 				var distance = global_position.distance_to(lastKnownPlayerPos)
 				hasAggro = true
-				return { 'playerPos': lastKnownPlayerPos, 'distance': distance}
-
+				return { 'playerPos': lastKnownPlayerPos, 'distance': distance }
 	return null
-
-
-func _draw() -> void:
-	draw_circle(Vector2(), detect_radius, vis_color)
-	if target:
-		for hit in hit_pos:
-			draw_circle((hit - position).rotated(-rotation), 5, laser_color)
-			draw_line(Vector2(), (hit - position).rotated(-rotation), laser_color)
 
 
 func moveTo(pos):
@@ -157,21 +165,21 @@ func moveTo(pos):
 	velocity = navDirection * lerp(speed, chaseSpeed, 0.8);
 
 
-func _on_area_2d_body_entered(body):
-	target = body
-	if body.name == "Player":
-		if isSeeingPlayer(body.global_position):
-			isChasing = true
-
-
 func stun():
-	#collision_shape_2d.call_deferred("set", "disabled", true)
-	collision_shape_2d.disabled = true
-	stunGCD.start(1.2)
-	isStunned = true
+	if stunGCD.is_stopped():
+		collision_shape_2d.disabled = true
+		stunGCD.start(1.2)
+		isStunned = true
+
+
+func _on_area_2d_body_entered(body):
+	if body.name == "Player":
+		target = body
+		if isSeeingPlayer():
+			isChasing = true
 
 
 func _on_stun_gcd_timeout() -> void:
 	isStunned = false
 	collision_shape_2d.disabled = false
-	#collision_shape_2d.call_deferred("set", "disabled", false)
+
