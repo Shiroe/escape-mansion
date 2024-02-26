@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://csi86iatlfx0l"]
+[gd_scene load_steps=7 format=3 uid="uid://b37vf3uhhnldn"]
 
-[ext_resource type="Texture2D" uid="uid://buvfvc2q1ldiy" path="res://assets/tutorial-label.png" id="1_o74kh"]
+[ext_resource type="Texture2D" path="res://assets/tutorial-label.png" id="1_o74kh"]
 [ext_resource type="Texture2D" uid="uid://84qu70dkpoes" path="res://assets/Button.png" id="2_3c2cb"]
 [ext_resource type="Script" path="res://src/wooden_label.gd" id="2_rh2wt"]
 
@@ -33,7 +33,7 @@ shape = SubResource("CircleShape2D_13tqr")
 visible = false
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer"]
-custom_minimum_size = Vector2(600, 200)
+custom_minimum_size = Vector2(800, 200)
 anchors_preset = -1
 anchor_left = 0.346
 anchor_top = 0.417

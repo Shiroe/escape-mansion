@@ -37,6 +37,7 @@ func GameOver():
 
 func reset():
 	PlayerSanity = 100;
+	PlayerEnergy = 100;
 	isKeyFound = false
 	lever1Found = false
 	lever2Found = false
