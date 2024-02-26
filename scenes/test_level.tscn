@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=74 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Script" path="res://src/test_level.gd" id="1_1k7gl"]
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
@@ -20,15 +20,14 @@
 [ext_resource type="Texture2D" uid="uid://b1aqjrfclt7su" path="res://assets/door.png" id="17_edfsv"]
 [ext_resource type="AudioStream" uid="uid://r1do7g5p8nk" path="res://assets/sfx/key-found.mp3" id="18_jr4mw"]
 [ext_resource type="Texture2D" uid="uid://biy1u5y1gil1x" path="res://assets/key-sprite.png" id="19_6xrpw"]
+[ext_resource type="AudioStream" uid="uid://dnvu6maea3em4" path="res://assets/sfx/mechanical-lever.mp3" id="20_qwa3s"]
 [ext_resource type="Texture2D" path="res://assets/nine-patch-rect-bg.png" id="21_753df"]
 [ext_resource type="Texture2D" uid="uid://bbmyaeqqxof3a" path="res://assets/lever-sprite.png" id="21_jps4b"]
 [ext_resource type="Texture2D" path="res://assets/nine-patch-rect-fill-2.png" id="22_i2ouj"]
-[ext_resource type="PackedScene" path="res://scenes/wooden_label.tscn" id="22_tfn4b"]
+[ext_resource type="PackedScene" uid="uid://b37vf3uhhnldn" path="res://scenes/wooden_label.tscn" id="22_tfn4b"]
 [ext_resource type="Texture2D" path="res://assets/nine-patch-rect-fill.png" id="22_xsnei"]
 [ext_resource type="PackedScene" uid="uid://b1dnsbol8aj84" path="res://scenes/victory.tscn" id="23_h0onb"]
 [ext_resource type="AudioStream" uid="uid://bs2o18cuete4q" path="res://assets/sfx/game-level-complete.mp3" id="25_pd4dk"]
-[ext_resource type="PackedScene" uid="uid://csi86iatlfx0l" path="res://scenes/wooden_label.tscn" id="22_tfn4b"]
-[ext_resource type="PackedScene" uid="uid://b1dnsbol8aj84" path="res://scenes/victory.tscn" id="23_h0onb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
 texture = ExtResource("1_huc24")
@@ -7351,68 +7350,76 @@ libraries = {
 "": SubResource("AnimationLibrary_3e1k0")
 }
 
-[node name="key" type="Sprite2D" parent="."]
+[node name="KeyContainer" type="Node2D" parent="."]
+
+[node name="KeySFXPlayer" type="AudioStreamPlayer2D" parent="KeyContainer"]
+position = Vector2(1640, 920)
+stream = ExtResource("18_jr4mw")
+volume_db = 10.0
+
+[node name="key" type="Sprite2D" parent="KeyContainer"]
 z_index = 1
 position = Vector2(1640, 920)
 texture = ExtResource("19_6xrpw")
 
-[node name="keyArea" type="Area2D" parent="key"]
+[node name="keyArea" type="Area2D" parent="KeyContainer/key"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="key/keyArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KeyContainer/key/keyArea"]
 scale = Vector2(1.3, 1.3)
 shape = SubResource("CircleShape2D_167m6")
 
-[node name="KeySFXPlayer" type="AudioStreamPlayer2D" parent="key"]
-stream = ExtResource("18_jr4mw")
-volume_db = 10.0
+[node name="LeversContainer" type="Node2D" parent="."]
 
-[node name="lever1" type="Sprite2D" parent="."]
+[node name="lever1" type="Sprite2D" parent="LeversContainer"]
 z_index = 1
 position = Vector2(678, 855)
 texture = ExtResource("21_jps4b")
 
-[node name="Area2D" type="Area2D" parent="lever1"]
+[node name="Area2D" type="Area2D" parent="LeversContainer/lever1"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever1/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever1/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="lever1Area" type="Area2D" parent="lever1"]
+[node name="lever1Area" type="Area2D" parent="LeversContainer/lever1"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever1/lever1Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever1/lever1Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
-[node name="lever2" type="Sprite2D" parent="."]
+[node name="lever2" type="Sprite2D" parent="LeversContainer"]
 z_index = 1
 position = Vector2(1642, 715)
 texture = ExtResource("21_jps4b")
 
-[node name="Area2D" type="Area2D" parent="lever2"]
+[node name="Area2D" type="Area2D" parent="LeversContainer/lever2"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever2/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever2/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="lever2Area" type="Area2D" parent="lever2"]
+[node name="lever2Area" type="Area2D" parent="LeversContainer/lever2"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever2/lever2Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever2/lever2Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
 
-[node name="lever3" type="Sprite2D" parent="."]
+[node name="lever3" type="Sprite2D" parent="LeversContainer"]
 z_index = 1
 position = Vector2(1643, 789)
 texture = ExtResource("21_jps4b")
 
-[node name="Area2D" type="Area2D" parent="lever3"]
+[node name="Area2D" type="Area2D" parent="LeversContainer/lever3"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever3/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever3/Area2D"]
 shape = SubResource("CircleShape2D_0j4e0")
 
-[node name="lever3Area" type="Area2D" parent="lever3"]
+[node name="lever3Area" type="Area2D" parent="LeversContainer/lever3"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="lever3/lever3Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeversContainer/lever3/lever3Area"]
 scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_x8bwo")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="LeversContainer"]
+stream = ExtResource("20_qwa3s")
 
 [node name="Player" parent="." instance=ExtResource("8_0enar")]
 position = Vector2(1491, 922)
@@ -7433,7 +7440,6 @@ rotates = false
 [node name="Ghost" parent="corridor1Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 position = Vector2(-1.00002, -2.99997)
 rotation = -0.0165731
-chaseSpeed = 150
 
 [node name="corridor2Enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_mwi57")
@@ -7443,7 +7449,6 @@ position = Vector2(1009, 815)
 rotates = false
 
 [node name="Ghost" parent="corridor2Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
-chaseSpeed = 150
 
 [node name="corridor3Enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_xhteq")
@@ -7453,7 +7458,7 @@ position = Vector2(846, 689)
 rotates = false
 
 [node name="Ghost" parent="corridor3Enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
-chaseSpeed = 150
+chaseSpeed = 120
 
 [node name="entrance enemy" type="Path2D" parent="."]
 curve = SubResource("Curve2D_sjdlm")
@@ -7466,6 +7471,8 @@ loop = false
 
 [node name="Ghost" parent="entrance enemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
 position = Vector2(-9.75281, 1)
+speed = 60
+chaseSpeed = 120
 patrol_type = "linear"
 
 [node name="exitDoorEnemy" type="Path2D" parent="."]
@@ -7477,7 +7484,7 @@ rotates = false
 loop = false
 
 [node name="Ghost" parent="exitDoorEnemy/PathFollow2D" instance=ExtResource("9_rq2aq")]
-chaseSpeed = 160
+chaseSpeed = 150
 patrol_type = "linear"
 
 [node name="LargeCorridor" type="Path2D" parent="."]
@@ -7489,8 +7496,8 @@ rotates = false
 loop = false
 
 [node name="Ghost" parent="LargeCorridor/PathFollow2D" instance=ExtResource("9_rq2aq")]
-speed = 120
-chaseSpeed = 170
+speed = 100
+chaseSpeed = 150
 patrol_type = "linear"
 
 [node name="semiFinalGhost" type="Path2D" parent="."]
@@ -7514,6 +7521,31 @@ loop = false
 
 [node name="Ghost" parent="keyGhost/PathFollow2D" instance=ExtResource("9_rq2aq")]
 patrol_type = "linear"
+
+[node name="TutorialLabels" type="Node2D" parent="."]
+
+[node name="WoodenLabel1" parent="TutorialLabels" instance=ExtResource("22_tfn4b")]
+position = Vector2(1513, 869)
+LabelText = "Controls:
+- Use WASD to move around.
+- Press Left Mouse click to use the Flashlight
+- Press Right Mouse click to toggle the Red Lantern"
+
+[node name="WoodenLabel2" parent="TutorialLabels" instance=ExtResource("22_tfn4b")]
+position = Vector2(1434, 959)
+LabelText = "What is happening:
+There are some invisible ghost wandering around.
+You can see them by toggling-on the Red Lantern. 
+Be conscious though! using your Lantern or Flashlight
+consumes energy from your batteries!"
+
+[node name="WoodenLabel3" parent="TutorialLabels" instance=ExtResource("22_tfn4b")]
+position = Vector2(1319, 909)
+LabelText = "What can you do:
+- If you go to close to a ghost it is going to chase and attack you!
+- You should try to avoid being detected by sneaking around.
+- In case a ghost comes after you use the flashlight to stun them!
+! Be sure to aim on their direction with your mouse!"
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -7606,42 +7638,8 @@ volume_db = 10.0
 [node name="Victory" parent="." instance=ExtResource("23_h0onb")]
 visible = false
 
-[node name="LightOccluderRow4" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_fdysc")
-
-[node name="LightOccluderRow5" type="LightOccluder2D" parent="."]
-position = Vector2(0, -127)
-occluder = SubResource("OccluderPolygon2D_fdysc")
-
-[node name="LightOccluderRow6" type="LightOccluder2D" parent="."]
-position = Vector2(0, -255)
-occluder = SubResource("OccluderPolygon2D_fdysc")
-
-[node name="WoodenLabel1" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1513, 869)
-LabelText = "Controls:
-- Use WASD to move around.
-- Press Left Mouse click to use the Flashlight
-- Press Right Mouse click toggle the Red Lantern"
-
-[node name="WoodenLabel2" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1434, 959)
-LabelText = "What is happening:
-There are some invisible ghost wandering around.
-You can see them by toggling-on the Red Lantern. 
-Be conscious though! using your Lantern or Flashlight
-consumes energy from your batteries!"
-
-[node name="WoodenLabel3" parent="." instance=ExtResource("22_tfn4b")]
-position = Vector2(1319, 909)
-LabelText = "What can you do:
-- If you go to close to a ghost it is going to attack you!
-- You should try to avoid being detected by sneaking around.
-- In case ghost comes after you use the flashlight!
-! Be sure to aim on their direction with your mouse!"
-
-[connection signal="body_entered" from="key/keyArea" to="." method="_on_key_area_body_entered"]
-[connection signal="body_entered" from="lever1/lever1Area" to="." method="_on_lever_1_area_body_entered"]
-[connection signal="body_entered" from="lever2/lever2Area" to="." method="_on_level_2_area_body_entered"]
-[connection signal="body_entered" from="lever3/lever3Area" to="." method="_on_level_3_area_body_entered"]
+[connection signal="body_entered" from="KeyContainer/key/keyArea" to="." method="_on_key_area_body_entered"]
+[connection signal="body_entered" from="LeversContainer/lever1/lever1Area" to="." method="_on_lever_1_area_body_entered"]
+[connection signal="body_entered" from="LeversContainer/lever2/lever2Area" to="." method="_on_level_2_area_body_entered"]
+[connection signal="body_entered" from="LeversContainer/lever3/lever3Area" to="." method="_on_level_3_area_body_entered"]
 [connection signal="body_entered" from="VictoryPoint" to="." method="_on_victory_point_body_entered"]

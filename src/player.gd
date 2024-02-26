@@ -11,7 +11,7 @@ extends CharacterBody2D
 @onready var hurt_gcd: Timer = $HurtGCD
 @onready var hurtAnimation: AnimationPlayer = $AnimationPlayer
 
-@export var SPEED: float = 200.0
+@export var SPEED: float = 220.0
 
 @export var isLanternOn: bool = false;
 @export var isFlashLightOn: bool = false;
@@ -54,6 +54,11 @@ func _physics_process(_delta):
 
 
 func toggleLantern():
+	if Game.PlayerEnergy == 0:
+		lantern.enabled = false;
+		lanternOuter.enabled = false;
+		return;
+
 	lantern.enabled = !lantern.enabled;
 	lanternOuter.enabled = !lanternOuter.enabled;
 	
@@ -64,6 +69,9 @@ func toggleLantern():
 
 
 func lanternEnergyConsumption():
+	if Game.PlayerEnergy == 0:
+		return;
+
 	if (lantern.enabled and lanternOuter.enabled) and lanternEnergyTickGCD.is_stopped():
 		lanternEnergyTickGCD.start(1.0);
 
@@ -124,5 +132,7 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 
 func _on_energy_tick_timeout():
-	print('LANTERN TICK')
-	Game.PlayerEnergy -= 1;
+	if Game.PlayerEnergy >= 1:
+		Game.PlayerEnergy -= 1;
+		if Game.PlayerEnergy == 0:
+			toggleLantern();

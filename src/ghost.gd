@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export_category('stats')
-@export var speed: int = 100;
+@export var speed: int = 80;
 @export var chaseSpeed: int = 120;
 @export var isChasing: bool = false;
 @export var CUSTOM_DEBUG_AREA: bool = false;
@@ -26,9 +26,9 @@ var hit_pos: Array = [];
 var target
 var laser_color = Color.WHITE
 var vis_color = Color(.867, .91, .247, 0.1)
-var detect_radius = 128
+var detect_radius = 100
 
-@onready var lantern: PointLight2D = player.get_node('LanternNode/LanternLight2');
+@onready var lantern: PointLight2D;
 var lightPosition;
 var lightRadius;
 var distanceToLight;
@@ -37,7 +37,8 @@ var visiblePortion
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	lantern = player.get_node('LanternNode/LanternLight2');
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -48,8 +49,7 @@ func _process(_delta):
 	transparency = clamp((lightRadius - distanceToLight) / lightRadius, 0.0, 1.0)
 	# Calculate the visible portion based on the light radius
 	visiblePortion = clamp((lightRadius - distanceToLight) / lightRadius, 0.0, 1.0)
-	if lantern.enabled:
-		queue_redraw()
+	queue_redraw();
 
 
 func _physics_process(delta):
