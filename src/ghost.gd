@@ -26,7 +26,7 @@ var hit_pos: Array = [];
 var target
 var laser_color = Color.WHITE
 var vis_color = Color(.867, .91, .247, 0.1)
-var detect_radius = 100
+var detect_radius = 90
 
 @onready var lantern: PointLight2D;
 var lightPosition;

@@ -1,5 +1,8 @@
 extends Node
 
+
+var MaxPlayerSanity = 100;
+var MaxPlayerEnergy = 100;
 var PlayerSanity := 100;
 var PlayerEnergy := 100;
 
@@ -25,7 +28,24 @@ func _process(_delta):
 	pass
 
 
+func reducePlayerEnergy(amount):
+	if PlayerEnergy - amount <= 0:
+		PlayerEnergy = 0;
+		return;
+	PlayerEnergy -= amount;
+	
+
+func increasePlayerEnergy(amount):
+	if PlayerEnergy + amount >= MaxPlayerEnergy:
+		PlayerEnergy = MaxPlayerEnergy;
+		return;
+	PlayerEnergy += amount;
+
+
 func reducePlayerSanity():
+	if hasWon:
+		return;
+
 	PlayerSanity -= 10;
 	if PlayerSanity <= 0:
 		GameOver();

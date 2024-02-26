@@ -12,6 +12,8 @@ extends CharacterBody2D
 @onready var hurtAnimation: AnimationPlayer = $AnimationPlayer
 
 @export var SPEED: float = 220.0
+@export var FlashlightEnergyCost = 5;
+@export var LanternEnergyCost = 1;
 
 @export var isLanternOn: bool = false;
 @export var isFlashLightOn: bool = false;
@@ -79,7 +81,7 @@ func lanternEnergyConsumption():
 
 func doFlash():
 	if not flashLight.enabled and flashLightGCD.is_stopped() and Game.PlayerEnergy >= 5:
-		Game.PlayerEnergy -= 5;
+		Game.reducePlayerEnergy(FlashlightEnergyCost);
 		isFlashLightOn = true;
 		flashMarker.rotation = get_angle_to(get_global_mouse_position())
 		flashLightGCD.start(0.5);
@@ -133,6 +135,6 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_energy_tick_timeout():
 	if Game.PlayerEnergy >= 1:
-		Game.PlayerEnergy -= 1;
+		Game.reducePlayerEnergy(LanternEnergyCost);
 		if Game.PlayerEnergy == 0:
 			toggleLantern();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://c1lyetutdfimb"]
+[gd_scene load_steps=75 format=3 uid="uid://c1lyetutdfimb"]
 
 [ext_resource type="Script" path="res://src/test_level.gd" id="1_1k7gl"]
 [ext_resource type="Texture2D" uid="uid://buqj80vra40iy" path="res://assets/Pixel Crawler - FREE - 1.8/Environment/Dungeon Prison/Assets/Tiles.png" id="1_huc24"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" path="res://assets/nine-patch-rect-fill.png" id="22_xsnei"]
 [ext_resource type="PackedScene" uid="uid://b1dnsbol8aj84" path="res://scenes/victory.tscn" id="23_h0onb"]
 [ext_resource type="AudioStream" uid="uid://bs2o18cuete4q" path="res://assets/sfx/game-level-complete.mp3" id="25_pd4dk"]
+[ext_resource type="PackedScene" uid="uid://ccrumx0i7q0v1" path="res://scenes/battery.tscn" id="29_b8chi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmi18"]
 texture = ExtResource("1_huc24")
@@ -7637,6 +7638,9 @@ volume_db = 10.0
 
 [node name="Victory" parent="." instance=ExtResource("23_h0onb")]
 visible = false
+
+[node name="Battery" parent="." instance=ExtResource("29_b8chi")]
+position = Vector2(1504, 618)
 
 [connection signal="body_entered" from="KeyContainer/key/keyArea" to="." method="_on_key_area_body_entered"]
 [connection signal="body_entered" from="LeversContainer/lever1/lever1Area" to="." method="_on_lever_1_area_body_entered"]

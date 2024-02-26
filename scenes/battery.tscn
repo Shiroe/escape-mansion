@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccrumx0i7q0v1"]
+
+[ext_resource type="Script" path="res://src/battery.gd" id="1_8xtj5"]
+[ext_resource type="Texture2D" uid="uid://2ja617mih46k" path="res://assets/battery-sprite.png" id="1_46quv"]
+[ext_resource type="Shader" path="res://scenes/outline.gdshader" id="2_isbs0"]
+[ext_resource type="AudioStream" uid="uid://r1do7g5p8nk" path="res://assets/sfx/key-found.mp3" id="3_jpri0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t3t0h"]
+shader = ExtResource("2_isbs0")
+shader_parameter/line_color = Vector4(1, 1, 1, 1)
+shader_parameter/line_thickness = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sbs0j"]
+radius = 16.0
+
+[node name="Battery" type="Node2D"]
+z_index = 5
+script = ExtResource("1_8xtj5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t3t0h")
+rotation = 0.610865
+texture = ExtResource("1_46quv")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_sbs0j")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_jpri0")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
